@@ -1,4 +1,4 @@
-class CreateHorseShows < ActiveRecord::Base
+class CreateHorseShows < ActiveRecord::Migration
     def change
         create_table :horse_shows do |t|
             t.string :name
