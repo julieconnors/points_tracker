@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 5) do
+ActiveRecord::Schema.define(version: 4) do
 
   create_table "horse_shows", force: :cascade do |t|
     t.string "name"
@@ -20,12 +20,11 @@ ActiveRecord::Schema.define(version: 5) do
 
   create_table "horses", force: :cascade do |t|
     t.string  "name"
-    t.integer "point_total"
     t.integer "user_id"
   end
 
-  create_table "points", force: :cascade do |t|
-    t.integer "total"
+  create_table "prizes", force: :cascade do |t|
+    t.integer "point_total"
     t.integer "horse_id"
     t.integer "horse_show_id"
   end
