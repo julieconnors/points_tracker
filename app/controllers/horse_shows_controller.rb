@@ -1,6 +1,6 @@
 class HorseShowsController < ApplicationController
 
     get '/horse-shows' do
-        "Horse Shows"
+        erb :"/horse-shows/index"
     end
 end
