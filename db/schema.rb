@@ -11,22 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
-
-  create_table "horse_shows", force: :cascade do |t|
-    t.string "name"
-    t.string "location"
-  end
+ActiveRecord::Schema.define(version: 6) do
 
   create_table "horses", force: :cascade do |t|
     t.string  "name"
     t.integer "user_id"
   end
 
+  create_table "horseshows", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+  end
+
   create_table "prizes", force: :cascade do |t|
     t.integer "point_total"
     t.integer "horse_id"
-    t.integer "horse_show_id"
+    t.integer "horseshow_id"
   end
 
   create_table "users", force: :cascade do |t|

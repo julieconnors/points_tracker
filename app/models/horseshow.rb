@@ -1,4 +1,4 @@
-class HorseShow < ActiveRecord::Base
+class Horseshow < ActiveRecord::Base
     has_many :prizes
     has_many :horses, through: :prizes
 end
