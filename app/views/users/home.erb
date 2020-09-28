@@ -1,4 +1,4 @@
-Welcome <%= @user.username %>
+Welcome <%= Helper.current_user(session).username %>
 
 <a href="/logout">Log Out</a>
 
