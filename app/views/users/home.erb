@@ -1,4 +1,15 @@
-Welcome <%= Helper.current_user(session).username %>
+<% @user = Helper.current_user(session) %>
+<h1>Welcome <%= @user.username %></h1>
+<h2>Your Horses</h2>
+<ul>
+<% @user.horses.each do |horse| %>
+<li><%= horse.name %></li>
+<% end %>
+</ul>
+<h3>View Points By Horse</h3>
+<h3>View Points By Horse Show</h3>
 
+Add Horse
+Add Horse Show
 <a href="/logout">Log Out</a>
 
