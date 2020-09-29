@@ -26,8 +26,9 @@ class HorsesController < ApplicationController
         erb :"/horses/show"
     end
 
-    delete '/horses/:slug' do
-        horse = Horse.find_by_slug(params[:slug])
+    delete '/horses/:id' do
+        binding.pry
+        horse = Horse.find(params[:id])
         horse.destroy
 
         redirect to "/account"
