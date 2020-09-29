@@ -11,6 +11,10 @@ class Horse < ActiveRecord::Base
         point_list.sum
     end
 
+    def point_total_by_horseshow(show_id)
+        self.prizes.find{|prize| prize.horseshow_id == show_id}.point_total
+    end
+
     def slug
         self.name.downcase.gsub(" ", "-")
     end

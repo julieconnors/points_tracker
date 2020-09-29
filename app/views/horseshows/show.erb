@@ -2,7 +2,7 @@
 
 <ul>
     <% @horseshow.horses.each do |horse| %>
-        <li><%= horse.name %></li>
+        <li><%= horse.name %>: <%= horse.point_total_by_horseshow(@horseshow.id)%></li>
     <% end %>
 </ul>
 
