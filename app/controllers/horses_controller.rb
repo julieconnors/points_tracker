@@ -15,6 +15,7 @@ class HorsesController < ApplicationController
     end
 
     post '/horses' do
+        binding.pry
         @horse = Horse.create(name: params[:name])
         @horseshow = Horseshow.create(params[:horseshow])
         @horse.user_id = session[:user_id]

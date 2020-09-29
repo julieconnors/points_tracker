@@ -4,6 +4,10 @@ class HorseshowsController < ApplicationController
         erb :"/horseshows/index"
     end
 
+    get '/horseshows/new' do 
+        erb :"/horseshows/new"
+    end
+
     get '/horseshows/:slug' do
         @horseshow = Horseshow.find_by_slug(params[:slug])
 
@@ -11,8 +15,9 @@ class HorseshowsController < ApplicationController
     end
 
     post '/horseshows' do
-        binding.pry
-        #@horseshow = Horseshow.find_or_create_by(name:)
+        @horseshow = Horseshow.find_or_create_by(name: params[:name])
+        @horseshow.location = params[:location]
+        @horseshow.save
 
         redirect to "/horseshows/#{@horseshow.slug}"
     end

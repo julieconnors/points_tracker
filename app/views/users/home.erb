@@ -11,13 +11,13 @@
 <h2>View Points By Horse Show</h2>
     <ul>
         <% @user.horseshows.uniq.each do |show| %>
-            <li><a href="/horseshows"><%= show.name %></a></li>
+            <li><a href="/horseshows/<%= show.slug %>"><%= show.name %></a></li>
         <% end %>
     </ul>
 
-<h3>Add Horse</h3>
+<h3><a href="/horses/new">Add Horse</a></h3>
 
-<h3>Add Horse Show</h3>
+<h3><a href="/prizes/new">Add Prize</a></h3>
 
 <a href="/logout">Log Out</a>
 
