@@ -8,19 +8,28 @@ class HorsesController < ApplicationController
         erb :"/horses/new"
     end
 
+    post '/horses' do
+        if !Horse.find_by(name: params[:name].capitalize)
+            @horse = Horse.new(name: params[:name])
+            @horse.user_id = session[:user_id]
+            @horse.save
+
+            redirect "/horses/#{@horse.slug}"
+        else
+            erb :"/horses/error"
+        end
+    end
+
     get '/horses/:slug' do
         @horse = Horse.find_by_slug(params[:slug])
 
         erb :"/horses/show"
     end
 
-    post '/horses' do
-        binding.pry
-        @horse = Horse.create(name: params[:name])
-        @horseshow = Horseshow.create(params[:horseshow])
-        @horse.user_id = session[:user_id]
-        @prize = Prize.create(point_total: params[:prize], horse_id: @horse.id, horseshow_id: @horseshow.id)
-        
-        redirect "/horses/#{@horse.slug}"
+    delete '/horses/:slug' do
+        horse = Horse.find_by_slug(params[:slug])
+        horse.destroy
+
+        redirect to "/account"
     end
 end

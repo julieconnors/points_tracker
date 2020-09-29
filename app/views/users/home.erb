@@ -1,7 +1,14 @@
 <% @user = Helper.current_user(session) %>
 <h1>Welcome <%= @user.username %></h1>
 
-<h2>View Points By Horse</h2>
+<h2>All Horses</h2>
+    <ul>
+        <% @user.horses.each do |horse| %>
+            <li><a href="/horses/<%= horse.slug %>"><%= horse.name %></a></li>
+        <% end %>
+    </ul>
+
+<h2>Total Points By Horse</h2>
     <ul>
         <% @user.horses.each do |horse| %>
             <li><%= horse.name %>: <%= horse.point_total %></li>
@@ -15,9 +22,9 @@
         <% end %>
     </ul>
 
-<h3><a href="/horses/new">Add Horse</a></h3>
+<button><a href="/horses/new">Add Horse</a></button>
 
-<h3><a href="/prizes/new">Add Prize</a></h3>
+<button><a href="/prizes/new">Add Prize</a></button><br>
 
 <a href="/logout">Log Out</a>
 
