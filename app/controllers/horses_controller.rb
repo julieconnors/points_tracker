@@ -8,17 +8,18 @@ class HorsesController < ApplicationController
         erb :"/horses/new"
     end
 
-    get '/horses/:id' do
+    get '/horses/:slug' do
+        @horse = Horse.find_by_slug(params[:slug])
+
         erb :"/horses/show"
     end
 
     post '/horses' do
-        binding.pry  
         @horse = Horse.create(name: params[:name])
-        @horse_show = HorseShow.create(params[:horse_show])
-        #assign user_id to @horse
-
-        @prize = Prize.create(point_total: params[:point_total], horse_id: @horse.id, horse_show_id: @horse_show.id)
-        #redirect "/horses/show"
+        @horseshow = Horseshow.create(params[:horseshow])
+        @horse.user_id = session[:user_id]
+        @prize = Prize.create(point_total: params[:prize], horse_id: @horse.id, horseshow_id: @horseshow.id)
+        
+        redirect "/horses/#{@horse.slug}"
     end
 end

@@ -2,16 +2,18 @@
 <h1>Welcome <%= @user.username %></h1>
 
 <h2>View Points By Horse</h2>
-<ul>
-    <% @user.horses.each do |horse| %>
-        <li><%= horse.name %>: <%= horse.point_total %></li>
-    <% end %>
-</ul>
+    <ul>
+        <% @user.horses.each do |horse| %>
+            <li><%= horse.name %>: <%= horse.point_total %></li>
+        <% end %>
+    </ul>
 
 <h2>View Points By Horse Show</h2>
-<% @user.list_horse_shows.each do |show| %>
-    <li><%= show %></li>
-    <% end %>
+    <ul>
+        <% @user.horseshows.uniq.each do |show| %>
+            <li><a href="/horseshows"><%= show.name %></a></li>
+        <% end %>
+    </ul>
 
 <h3>Add Horse</h3>
 

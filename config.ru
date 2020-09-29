@@ -5,6 +5,6 @@ if ActiveRecord::Migrator.needs_migration?
 end
 
 use UsersController
-use HorseShowsController
+use HorseshowsController
 use HorsesController
 run ApplicationController
