@@ -1,6 +1,6 @@
-<h1>Horses</h1>
-    <ul>
+<div class="display">
+    <h1>Horses</h1>
         <% Horse.all.each do |horse| %>
-            <li><a href="/horses/<%= horse.slug %>"><%= horse.name %></a></li>
+            <a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br>
         <% end %>
-    </ul>
+</div>

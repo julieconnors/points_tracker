@@ -1,0 +1,7 @@
+<div class="display">
+    <h1>All Prizes</h1>
+        <% @user.prizes.each do |prize| %>
+            <%= Horse.find(prize.horse_id).name%>: <%= prize.point_total %>
+            <button><a href="/prizes/<%= prize.id %>/edit">Edit Prize</a></button><br>
+        <% end %>
+</div>

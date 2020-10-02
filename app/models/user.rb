@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+    has_many :prizes
     has_many :horses
     has_many :horseshows, through: :horses
     has_secure_password

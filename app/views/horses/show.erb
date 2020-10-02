@@ -3,14 +3,14 @@
 <h1><%= @horse.name %></h1>
 <h3>Points By Show:</h3>
 
-<% @horse.prizes.each do |prize| %>
-    <% show = Horseshow.find(prize.horseshow_id) %>
-    <a href="/horseshows/<%= show.slug %>"><%= show.name %></a>: <%= prize.point_total %><br>
-<% end %>
+    <% @horse.prizes.each do |prize| %>
+        <% show = Horseshow.find(prize.horseshow_id) %>
+        <a href="/horseshows/<%= show.slug %>"><%= show.name %></a>: <%= prize.point_total %>
+    <% end %>
 <br>
 <br>
-<form action="/horses/<%= @horse.id %>" method="post">
-<input type="hidden" id="hidden" name="_method" value="delete">
-<input type="submit" id="submit-delete" value="remove horse">
-</form>
+    <form action="/horses/<%= @horse.id %>" method="post">
+        <input type="hidden" id="hidden" name="_method" value="delete">
+        <input type="submit" id="submit-delete" value="remove horse">   
+    </form>
 </div>

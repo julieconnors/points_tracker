@@ -1,5 +1,5 @@
 <% @user = Helper.current_user(session) %>
-<div class="display"><h1>Welcome <%= @user.username %></h1>
+<div class="display"><h1>Welcome <%= @user.name %></h1>
 
 <h2>All Horses:</h2>
     
@@ -23,7 +23,7 @@
             <a href="/horseshows/<%= show.slug %>"><%= show.name %></a><br>
         <% end %>
 
-
+    <button><a href="/prizes">All Prizes</a></button>
 
     <button><a href="/prizes/new">Add Prize</a></button><br>
 <br>

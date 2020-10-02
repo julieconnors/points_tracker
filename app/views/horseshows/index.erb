@@ -1,6 +1,6 @@
-<h1>Horse Shows</h1>
-<ul>
-<% Horseshow.all.each do |show| %>
-<li><%= show.name%></li>
-<% end %>
-</ul>
+<div class="display">
+    <h1>Horse Shows</h1>
+        <% Horseshow.all.each do |show| %>
+            <a href="<%=show.slug %>"><%= show.name%></a>: <%= show.location %><br>
+        <% end %>
+</div>

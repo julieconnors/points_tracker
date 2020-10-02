@@ -1,0 +1,21 @@
+<div class="display"><h1>Edit Prize</h1>
+<form action="/prizes/<%= @prize.id %>" method="post">
+  <input type="hidden" id="hidden" name="_method" value="patch">
+  
+  <label for="horseshow_name">Horse Show:</label>
+  <input type="text" name="horseshow[name]" id="horseshow_name" value="<%= @prize.horseshow.name %>"> </br>
+
+  <label for="horseshow_location">Location: </label>
+  <input type="text" name="horseshow[location]" id="horseshow_location" value="<%= @prize.horseshow.location %>"> </br>
+  <br>
+  <label>Horses: </label><br>
+  <% @user.horses.each do |horse| %>
+    <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>" <%='checked' if @prize.horse_id == horse.id %>><br>
+  <% end %>
+  <br>
+  <label>Point Total: </label>
+    <input type="text" name="point_total" id="point_total" value="<%= @prize.point_total %>"><br>
+
+  <input type="submit" id="submit" value="Update">
+</form>
+</div>
