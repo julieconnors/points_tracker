@@ -8,8 +8,11 @@
         <a href="/horseshows/<%= show.slug %>"><%= show.name %></a>: <%= prize.point_total %><br>
     <% end %>
 <br>
+    <button><a href="/horses/<%= @horse.slug %>/edit">Edit Horse</a></button>
+
     <form action="/horses/<%= @horse.id %>" method="post">
         <input type="hidden" id="hidden" name="_method" value="delete">
         <input type="submit" id="submit-delete" value="remove horse">   
     </form>
+    <button><a href="/account">Home</a></button>
 </div>

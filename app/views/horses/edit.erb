@@ -1,0 +1,13 @@
+<div class="display">
+
+    <h1>Edit Horse</h1>
+
+    <form action="/horses/<%= @horse.slug %>" method="post">
+    <input type="hidden" id="hidden" name="_method" value="patch">
+    <label>Horse Name: </label>
+    <input type="text" name="name" id="horse_name"><br>
+
+    <input type="submit" id="submit" value="Update">
+    </form>
+
+</div>

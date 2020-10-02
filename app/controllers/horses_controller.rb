@@ -26,8 +26,21 @@ class HorsesController < ApplicationController
         erb :"/horses/show"
     end
 
+    get '/horses/:slug/edit' do
+        @horse = Horse.find_by_slug(params[:slug])
+        @user = User.find(session[:user_id])
+
+        erb :"/horses/edit"
+    end
+
+    patch '/horses/:slug' do
+        @horse = Horse.find_by_slug(params[:slug])
+        @horse.update!(name: params[:name])
+
+        redirect "/horses/#{@horse.slug}"
+    end
+
     delete '/horses/:id' do
-        binding.pry
         horse = Horse.find(params[:id])
         horse.destroy
 

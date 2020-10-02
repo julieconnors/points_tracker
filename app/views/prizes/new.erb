@@ -1,9 +1,10 @@
+<div class="display">
 <h1>Add Prize</h1>
 
 <form action="/prizes" method="post">
     <h2>Horse</h2>
         <% @user.horses.each do |horse| %>
-            <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horses[]" value="<%= horse.id %>"><br>
+            <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>"><br>
         <% end %>
         
     <h3>Horse Show: </h3>
@@ -17,3 +18,4 @@
     
     <input type="submit" id="submit" value="Add Prize">
 </form>
+</div>

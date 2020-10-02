@@ -7,6 +7,8 @@ Location: <%= @horseshow.location %>
     <% @horseshow.horses.each do |horse| %>
         <a href="/horses/<%= horse.slug %>"><%= horse.name %></a>: <%= horse.point_total_by_horseshow(@horseshow.id)%><br>
     <% end %>
-
+    <br>
+<button><a href="/account">Home</a></button>
+<br>
 </div>
 
