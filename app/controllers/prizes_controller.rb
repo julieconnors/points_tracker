@@ -24,6 +24,8 @@ class PrizesController < ApplicationController
     end
 
     get '/prizes/:id' do
+        @prize = Prize.find(params[:id])
+        
         erb :"/prizes/show"
     end
 
@@ -41,8 +43,16 @@ class PrizesController < ApplicationController
         @horse = Horse.find(params[:horse_id])
         @prize.update(point_total: params[:point_total], horseshow_id: @horseshow.id, horse_id: @horse.id, user_id: @user.id)
         @prize.save
-        binding.pry
+
         redirect "/prizes"
+    end
+
+    delete '/prizes/:id' do
+        binding.pry
+        #prize = Prize.find(params[:id])
+        #prize.destroy
+
+        redirect to "/prizes"
     end
 
 end
