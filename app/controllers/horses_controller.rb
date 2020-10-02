@@ -12,7 +12,7 @@ class HorsesController < ApplicationController
         if !Horse.find_by(name: params[:name].capitalize)
             @horse = Horse.new(name: params[:name])
             @horse.user_id = session[:user_id]
-            @horse.save
+            @horse.save!
 
             redirect "/horses/#{@horse.slug}"
         else

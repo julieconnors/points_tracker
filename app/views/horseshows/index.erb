@@ -1,6 +1,9 @@
 <div class="display">
     <h1>Horse Shows</h1>
         <% Horseshow.all.each do |show| %>
-            <a href="<%=show.slug %>"><%= show.name%></a>: <%= show.location %><br>
+            <a href="/horseshows/<%=show.slug %>"><%= show.name%></a>: <%= show.location %><br>
         <% end %>
+        <br>
+        <button><a href="/account">Home</a></button>
+    <br>
 </div>

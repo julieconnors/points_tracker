@@ -9,10 +9,4 @@ class HorseshowsController < ApplicationController
 
         erb :"/horseshows/show"
     end
-
-    post '/horseshows' do
-        @horseshow = Horseshow.find_by(name: params[:name])
-
-        redirect to "/horseshows/#{@horseshow.slug}"
-    end
 end
