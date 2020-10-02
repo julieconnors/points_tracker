@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
     get '/account' do
         if Helper.is_logged_in?(session)
-			erb :"/users/home"
+			erb :"/users/index"
 		else
 			redirect "/login"
 		end    
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
             redirect to "/account"
         else
-            erb :"/users/error"
+            redirect "/login_error"
         end
     end
     
@@ -36,10 +36,10 @@ class UsersController < ApplicationController
                 session[:user_id] = @user.id
                 redirect to "/account"
 		    else
-			    redirect "/users/error"
+			    redirect "/signup_error" 
             end
         else
-            erb :"users/signup_error"
+            redirect "/signup_error"
         end
     end
 
@@ -49,7 +49,11 @@ class UsersController < ApplicationController
         redirect to '/'
     end
 
-    get '/error' do
-        erb :error
+    get '/login_error' do
+        erb :"users/login_error"
+    end
+
+    get '/signup_error' do
+        erb :"/users/signup_error"
     end
 end

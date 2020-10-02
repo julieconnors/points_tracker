@@ -1,0 +1,34 @@
+<% @user = Helper.current_user(session) %>
+<div class="display"><h1>Welcome <%= @user.username %></h1>
+
+<h2>All Horses:</h2>
+    
+        <% @user.horses.each do |horse| %>
+            <a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br>
+        <% end %>
+    
+
+    <button><a href="/horses/new">Add Horse</a></button>
+
+<h2>Total Points By Horse:</h2>
+    
+        <% @user.horses.each do |horse| %>
+            <%= horse.name %>: <%= horse.point_total %><br>
+        <% end %>
+    
+
+<h2>View Points By Horse Show:</h2>
+    
+        <% @user.horseshows.uniq.each do |show| %>
+            <a href="/horseshows/<%= show.slug %>"><%= show.name %></a><br>
+        <% end %>
+
+
+
+    <button><a href="/prizes/new">Add Prize</a></button><br>
+<br>
+<button class="logout"><a href="/logout">Log Out</a></button>
+</div>
+
+
+

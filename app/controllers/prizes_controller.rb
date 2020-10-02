@@ -4,7 +4,6 @@ class PrizesController < ApplicationController
     end
 
     post '/prizes' do
-        binding.pry
         @horse = Horse.find_or_create_by(name: params[:horse_name])
         @horseshow = Horseshow.find_or_create_by(params[:horseshow])
 

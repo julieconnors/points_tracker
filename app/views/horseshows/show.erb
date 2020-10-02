@@ -1,8 +1,12 @@
+<div class="display">
 <h1><%= @horseshow.name %></h1>
-
-<ul>
+Location: <%= @horseshow.location %>
+<br>
+<br>
+<h3>Points By Horse:</h3>
     <% @horseshow.horses.each do |horse| %>
-        <li><%= horse.name %>: <%= horse.point_total_by_horseshow(@horseshow.id)%></li>
+        <a href="/horses/<%= horse.slug %>"><%= horse.name %></a>: <%= horse.point_total_by_horseshow(@horseshow.id)%><br>
     <% end %>
-</ul>
+
+</div>
 
