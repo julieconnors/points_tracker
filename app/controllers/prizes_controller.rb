@@ -39,7 +39,6 @@ class PrizesController < ApplicationController
         @horseshow = Horseshow.find_or_create_by(params[:horseshow])
         @horse = Horse.find(params[:horse_id])
         @prize.update!(point_total: params[:point_total], horseshow_id: @horseshow.id, horse_id: @horse.id, user_id: @user.id)
-        #@prize.save
 
         redirect "/prizes"
     end
