@@ -49,5 +49,4 @@ class PrizesController < ApplicationController
 
         redirect to "/prizes"
     end
-
 end

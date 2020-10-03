@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     end
 
     post '/login' do
-        @user = User.all.find_by(username: params[:username])
+        @user = User.find_by(username: params[:username])
 
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     end
 
     get '/login_error' do
-        erb :"users/login_error"
+        erb :"/users/login_error"
     end
 
     get '/signup_error' do
