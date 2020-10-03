@@ -9,6 +9,7 @@ class HorsesController < ApplicationController
     end
 
     post '/horses' do
+
         if !Horse.find_by(name: params[:name].capitalize)
             @horse = Horse.new(name: params[:name])
             @horse.user_id = session[:user_id]
@@ -29,8 +30,11 @@ class HorsesController < ApplicationController
     get '/horses/:slug/edit' do
         @horse = Horse.find_by_slug(params[:slug])
         @user = User.find(session[:user_id])
-
-        erb :"/horses/edit"
+        if @horse.user_id == @user.id
+            erb :"/horses/edit"
+        else
+            erb :"/horses/access-error"
+        end
     end
 
     patch '/horses/:slug' do
@@ -42,8 +46,13 @@ class HorsesController < ApplicationController
 
     delete '/horses/:id' do
         horse = Horse.find(params[:id])
-        horse.destroy
+        user = User.find(session[:user_id])
+        if horse.user_id == user.id
+            horse.destroy
 
-        redirect to "/account"
+            redirect to "/account"
+        else
+            erb :"/horses/access-error"
+        end
     end
 end
