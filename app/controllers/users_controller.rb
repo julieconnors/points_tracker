@@ -4,7 +4,7 @@ class UsersController < ApplicationController
         erb :"/users/login"
     end
 
-    get '/account' do
+    get '/user/:id' do #change to username slug???
         if Helper.is_logged_in?(session)
 			erb :"/users/index"
 		else
@@ -12,13 +12,13 @@ class UsersController < ApplicationController
 		end    
     end
 
-    post '/login' do
+    post '/users' do
         @user = User.find_by(username: params[:username])
 
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
 
-            redirect to "/account"
+            redirect to "/user/#{@user.id}" #change to usersname slug???
         else
             redirect "/login_error"
         end
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
             @user = User.new(params)
             if @user.save #if params include username and password, @user can be persisted
                 session[:user_id] = @user.id
-                redirect to "/account"
+                redirect to "/users/#{@user.id}"
 		    else
 			    redirect "/signup_error" 
             end

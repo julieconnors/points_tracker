@@ -1,3 +1,4 @@
 - add Helper methods to user controller
 - check routes
 - module for slug methods??
+- include current_user helper method instead of calling database to find user
