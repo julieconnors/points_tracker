@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     end
 
     post '/users' do
+        #do I need login validation on post routes??
         @user = User.find_by(username: params[:username])
 
         if @user && @user.authenticate(params[:password])
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
     end
 
     post '/signup' do
-        if !User.all.find_by(username: params[:username])
+        if !User.find_by(username: params[:username])
             @user = User.new(params)
             if @user.save #if params include username and password, @user can be persisted
                 session[:user_id] = @user.id

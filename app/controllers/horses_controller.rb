@@ -5,16 +5,20 @@ class HorsesController < ApplicationController
             erb :"/horses/index"
         else
             #Message that says please log in
-            redirect "/"
+            redirect "/login"
         end
     end
 
     get '/horses/new' do
-        binding.pry
-        erb :"/horses/new"
+        if logged_in?
+            erb :"/horses/new"
+        else
+            redirect "/login"
+        end
     end
 
     post '/horses' do
+        #do I need login validation on post routes??
         binding.pry
         if !Horse.find_by(name: params[:name].capitalize)
             @horse = Horse.new(name: params[:name])
@@ -28,18 +32,26 @@ class HorsesController < ApplicationController
     end
 
     get '/horses/:slug' do
-        @horse = Horse.find_by_slug(params[:slug])
+        if logged_in?
+            @horse = Horse.find_by_slug(params[:slug])
 
-        erb :"/horses/show"
+            erb :"/horses/show"
+        else
+            redirect "/login"
+        end
     end
 
     get '/horses/:slug/edit' do
-        @horse = Horse.find_by_slug(params[:slug])
-        @user = User.find(session[:user_id])
-        if @horse.user_id == @user.id
-            erb :"/horses/edit"
+        if logged_in?
+            @horse = Horse.find_by_slug(params[:slug])
+            @user = User.find(session[:user_id])
+            if @horse.user_id == @user.id
+                erb :"/horses/edit"
+            else
+                erb :"/horses/access-error"
+            end
         else
-            erb :"/horses/access-error"
+            redirect "/login"
         end
     end
 
