@@ -1,12 +1,20 @@
 class HorseshowsController < ApplicationController
 
     get '/horseshows' do
-        erb :"/horseshows/index"
+        if logged_in?
+            erb :"/horseshows/index"
+        else
+          redirect "/login"  
+        end
     end
 
     get '/horseshows/:slug' do
-        @horseshow = Horseshow.find_by_slug(params[:slug])
+        if logged_in?
+            @horseshow = Horseshow.find_by_slug(params[:slug])
 
-        erb :"/horseshows/show"
+            erb :"/horseshows/show"
+        else
+            redirect "/login"
+        end
     end
 end
