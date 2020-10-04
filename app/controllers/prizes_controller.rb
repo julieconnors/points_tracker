@@ -1,17 +1,26 @@
 class PrizesController < ApplicationController
     get '/prizes/new' do
-        @user = User.find(session[:user_id])
-
-        erb :"/prizes/new"
+        if logged_in?
+            @user = current_user
+        
+            erb :"/prizes/new"        
+        else
+            redirect "/login"
+        end
     end
 
     get '/prizes' do
-        @user = User.find(session[:user_id])
+        if logged_in?
+            @user = current_user
 
-        erb :"/prizes/index"
+            erb :"/prizes/index"
+        else
+            redirect "/login"
+        end
     end
 
     post '/prizes' do
+        #do I need login validation for post routes??
         @horse = Horse.find(params[:horse_id])
         @horseshow = Horseshow.find_or_create_by(params[:horseshow])
         
@@ -21,20 +30,28 @@ class PrizesController < ApplicationController
     end
 
     get '/prizes/:id' do
-        @prize = Prize.find(params[:id])
+        if logged_in?
+            @prize = Prize.find(params[:id])
 
-        erb :"/prizes/show"
+            erb :"/prizes/show"
+        else
+            redirect "/login"
+        end
     end
 
     get '/prizes/:id/edit' do
-        @prize = Prize.find(params[:id])
-        @user = User.find(session[:user_id])
+        if logged_in?
+            @prize = Prize.find(params[:id])
+            @user = current_user
 
-        erb :"/prizes/edit"
+            erb :"/prizes/edit"
+        else
+            redirect "/login"
+        end
     end
 
     patch '/prizes/:id' do
-        @user = User.find(session[:user_id])
+        @user = current_user
         @prize = Prize.find(params[:id])
         @horseshow = Horseshow.find_or_create_by(params[:horseshow])
         @horse = Horse.find(params[:horse_id])
