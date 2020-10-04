@@ -5,8 +5,9 @@ class UsersController < ApplicationController
     end
 
     get '/user/:id' do #change to username slug???
-        if Helper.is_logged_in?(session)
-			erb :"/users/index"
+        if logged_in?
+        @user = User.find_by(id: session[:user_id])
+			erb :"/users/show"
 		else
 			redirect "/login"
 		end    

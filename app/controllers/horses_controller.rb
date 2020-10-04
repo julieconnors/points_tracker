@@ -1,15 +1,21 @@
 class HorsesController < ApplicationController
 
     get '/horses' do
-        erb :"/horses/index"
+        if logged_in?
+            erb :"/horses/index"
+        else
+            #Message that says please log in
+            redirect "/"
+        end
     end
 
     get '/horses/new' do
+        binding.pry
         erb :"/horses/new"
     end
 
     post '/horses' do
-
+        binding.pry
         if !Horse.find_by(name: params[:name].capitalize)
             @horse = Horse.new(name: params[:name])
             @horse.user_id = session[:user_id]
