@@ -11,7 +11,13 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    erb :index
+    if !logged_in?
+      erb :index
+    else
+      @user = current_user
+
+      redirect "/users/#{@user.slug}"
+    end
   end
 
   helpers do 

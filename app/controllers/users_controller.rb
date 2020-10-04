@@ -4,7 +4,7 @@ class UsersController < ApplicationController
         erb :"/users/login"
     end
 
-    get '/user/:slug' do #change to username slug???
+    get '/users/:slug' do #change to username slug???
         if logged_in?
             @user = User.find_by_slug(params[:slug])
 			erb :"/users/show"
@@ -32,6 +32,7 @@ class UsersController < ApplicationController
     end
 
     post '/signup' do
+        binding.pry
         if !User.find_by(username: params[:username])
             @user = User.new(params)
             if @user.save #if params include username and password, @user can be persisted
