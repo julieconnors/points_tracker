@@ -4,9 +4,9 @@ class UsersController < ApplicationController
         erb :"/users/login"
     end
 
-    get '/user/:id' do #change to username slug???
+    get '/user/:slug' do #change to username slug???
         if logged_in?
-        @user = User.find_by(id: session[:user_id])
+            @user = User.find_by_slug(params[:slug])
 			erb :"/users/show"
 		else
 			redirect "/login"
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
 
-            redirect to "/user/#{@user.id}" #change to usersname slug???
+            redirect to "/user/#{@user.slug}"
         else
             redirect "/login_error"
         end
