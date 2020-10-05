@@ -11,3 +11,5 @@
 - can edit/delete button be made unavailable to users that don't own the horse or prize??
 
 - fix nav logout route
+
+- add helper methods to find horses and find prizes

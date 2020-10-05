@@ -1,25 +1,20 @@
 class PrizesController < ApplicationController
     get '/prizes/new' do
-        if logged_in?
-            @user = current_user
+        logged_out_redirection
+        @user = current_user
         
-            erb :"/prizes/new"        
-        else
-            redirect "/login"
-        end
+        erb :"/prizes/new"        
     end
 
     get '/prizes' do
-        if logged_in?
-            @user = current_user
+        logged_out_redirection
+        @user = current_user
 
-            erb :"/prizes/index"
-        else
-            redirect "/login"
-        end
+        erb :"/prizes/index"
     end
 
     post '/prizes' do
+        logged_out_redirection #is this necessary???
         @user = current_user
         #do I need login validation for post routes??
         if prize_valid?(params)
@@ -35,31 +30,27 @@ class PrizesController < ApplicationController
     end
 
     get '/prizes/:id' do
+        logged_out_redirection
         @prize = Prize.find(params[:id]) #add find_prize helper method??
-        if logged_in?
-            if @prize.user_id == current_user.id
+        
+        if @prize.user_id == current_user.id
 
-            erb :"/prizes/show"
-            else
-                erb :"/prizes/access-error"
-            end
+        erb :"/prizes/show"
         else
-            redirect "/login"
+            erb :"/prizes/access-error"
         end
     end
 
     get '/prizes/:id/edit' do
-        if logged_in?
-            @prize = Prize.find(params[:id]) #add find prize helper method??
-            @user = current_user
+        logged_out_redirection
+        @prize = Prize.find(params[:id]) #add find prize helper method??
+        @user = current_user
 
-            erb :"/prizes/edit"
-        else
-            redirect "/login"
-        end
+        erb :"/prizes/edit"
     end
 
     patch '/prizes/:id' do
+        logged_out_redirection #is this necessary??
         @user = current_user
         @prize = Prize.find(params[:id]) #add find_prize helper method??
 
@@ -75,14 +66,11 @@ class PrizesController < ApplicationController
     end
 
     delete '/prizes/:id' do
-        if logged_in? # is this necessary
-            prize = Prize.find(params[:id]) #add find_prize helper method??
-            prize.destroy
+        logged_out_redirection # is this necessary
+        prize = Prize.find(params[:id]) #add find_prize helper method??
+        prize.destroy
 
-            redirect to "/prizes"
-        else
-            redirect "/login"
-        end
+        redirect to "/prizes"
     end
 
     helpers do
