@@ -20,6 +20,10 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  get "/access-error" do
+    erb :"/access-error"
+  end
+
   helpers do 
     def logged_in?
       !!session[:user_id]

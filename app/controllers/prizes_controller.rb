@@ -35,10 +35,14 @@ class PrizesController < ApplicationController
     end
 
     get '/prizes/:id' do
+        @prize = Prize.find(params[:id]) #add find_prize helper method??
         if logged_in?
-            @prize = Prize.find(params[:id]) #add find_prize helper method??
+            if @prize.user_id == current_user.id
 
             erb :"/prizes/show"
+            else
+                erb :"/prizes/access-error"
+            end
         else
             redirect "/login"
         end

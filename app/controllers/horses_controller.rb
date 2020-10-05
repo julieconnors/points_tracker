@@ -2,10 +2,12 @@ class HorsesController < ApplicationController
 
     get '/horses' do
         if logged_in?
+            @user = current_user
+            
             erb :"/horses/index"
         else
             #Message that says please log in
-            redirect "/login"
+            redirect "/login" # should this render instead??
         end
     end
 
@@ -13,7 +15,7 @@ class HorsesController < ApplicationController
         if logged_in?
             erb :"/horses/new"
         else
-            redirect "/login"
+            redirect "/login"  #should this render instead??
         end
     end
 
@@ -26,7 +28,7 @@ class HorsesController < ApplicationController
 
             redirect "/horses/#{@horse.slug}"
         else
-            erb :"/horses/error"
+            erb :"/horses/duplicate-error" # this should be a redirection
         end
     end
 
@@ -36,7 +38,7 @@ class HorsesController < ApplicationController
 
             erb :"/horses/show"
         else
-            redirect "/login"
+            redirect "/login" #should this render instead??
         end
     end
 
@@ -47,29 +49,36 @@ class HorsesController < ApplicationController
             if @horse.user_id == @user.id
                 erb :"/horses/edit"
             else
-                erb :"/horses/access-error"
+                erb :"/access-error"
+            end
+        else
+            redirect "/login" #should this render instead of redirect??
+        end
+    end
+
+    patch '/horses/:slug' do
+        if logged_in? # is this necessary
+            @horse = Horse.find_by_slug(params[:slug])
+            if @horse.user_id == current_user.id
+                @horse.update(name: params[:name])
+
+                redirect "/horses/#{@horse.slug}"
+            else
+                redirect "/access-error" # is this necessary
             end
         else
             redirect "/login"
         end
     end
 
-    patch '/horses/:slug' do
-        @horse = Horse.find_by_slug(params[:slug])
-        @horse.update!(name: params[:name])
-
-        redirect "/horses/#{@horse.slug}"
-    end
-
     delete '/horses/:id' do
         horse = Horse.find(params[:id])
-        user = User.find(session[:user_id])
-        if horse.user_id == user.id
+        if horse.user_id == current_user.id
             horse.destroy
 
-            redirect to "/account"
+            redirect "/users/#{current_user.slug}"
         else
-            erb :"/horses/access-error"
+            redirect "/access-error"
         end
     end
 end

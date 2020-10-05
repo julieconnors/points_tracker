@@ -1,9 +1,9 @@
 <div class="display">
     <h1>Horses</h1>
-        <% Horse.all.each do |horse| %>
+        <% @user.horses.each do |horse| %>
             <a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br>
         <% end %>
         <br>
-        <button><a href="/account">Home</a></button>
+        <button><a href="/users/<%= @user.slug %>">Home</a></button>
     <br>
 </div>
