@@ -12,3 +12,5 @@
 - can edit/delete button be made unavailable to users that don't own the horse or prize??
 
 - helper method for validation check and redirection
+
+- fix nav logout route
