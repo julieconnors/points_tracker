@@ -16,7 +16,6 @@ class PrizesController < ApplicationController
     post '/prizes' do
         logged_out_redirection #is this necessary???
         @user = current_user
-        #do I need login validation for post routes??
         if prize_valid?(params)
             @horse = Horse.find(params[:horse_id])
             @horseshow = Horseshow.find_or_create_by(params[:horseshow])
@@ -31,33 +30,35 @@ class PrizesController < ApplicationController
 
     get '/prizes/:id' do
         logged_out_redirection
-        @prize = Prize.find(params[:id]) #add find_prize helper method??
+        @prize = Prize.find(params[:id])
         
         if @prize.user_id == current_user.id
 
-        erb :"/prizes/show"
+            erb :"/prizes/show"
         else
-            erb :"/prizes/access-error"
+            erb :"/access-error"
         end
     end
 
     get '/prizes/:id/edit' do
         logged_out_redirection
-        @prize = Prize.find(params[:id]) #add find prize helper method??
-        @user = current_user
+        @prize = Prize.find(params[:id])
+        if @prize.user_id == current_user.id
 
-        erb :"/prizes/edit"
+            erb :"/prizes/edit"
+        else
+            redirect "/access-error"
+        end
     end
 
     patch '/prizes/:id' do
         logged_out_redirection #is this necessary??
-        @user = current_user
         @prize = Prize.find(params[:id]) #add find_prize helper method??
 
         if prize_valid?(params)
             @horseshow = Horseshow.find_or_create_by(params[:horseshow])
             @horse = Horse.find(params[:horse_id])
-            @prize.update(point_total: params[:point_total], horseshow_id: @horseshow.id, horse_id: @horse.id, user_id: @user.id)
+            @prize.update(point_total: params[:point_total], horseshow_id: @horseshow.id, horse_id: @horse.id, user_id: cuurent_user.id)
 
             redirect "/prizes/#{@prize.id}"
         else
@@ -67,7 +68,7 @@ class PrizesController < ApplicationController
 
     delete '/prizes/:id' do
         logged_out_redirection # is this necessary
-        prize = Prize.find(params[:id]) #add find_prize helper method??
+        prize = Prize.find(params[:id])
         prize.destroy
 
         redirect to "/prizes"

@@ -9,7 +9,7 @@
   <input type="text" name="horseshow[location]" id="horseshow_location" value="<%= @prize.horseshow.location %>"> </br>
   <br>
   <label>Horses: </label><br>
-  <% @user.horses.each do |horse| %>
+  <% current_user.horses.each do |horse| %>
     <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>" <%='checked' if @prize.horse_id == horse.id %>><br>
   <% end %>
   <br>
