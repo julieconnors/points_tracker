@@ -1,9 +1,8 @@
-- add Helper methods to application controller class
 - check routes
 - module for slug methods??
-- include current_user helper method instead of calling database to find user??
 - check conventions for RESTful routes
 - messages instead of error views???
-- add checks to view pages so the redirect if user is not logged in
+- add checks to view pages so they redirect if user is not logged in
 - add home link to layout view, and maybe logout???
-- if user is logged in? home route should take user to user show page
+
+-**Need to validate user input for creating Prizes**
