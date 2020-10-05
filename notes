@@ -3,14 +3,11 @@
 - check conventions for RESTful routes
 - messages instead of error views???
 - add checks to view pages so they redirect if user is not logged in
-- add home link to layout view, and maybe logout???
 
 -**Need to validate user input for creating Prizes**
 
 - verify prize belongs to user to edit**
 
 - can edit/delete button be made unavailable to users that don't own the horse or prize??
-
-- helper method for validation check and redirection
 
 - fix nav logout route
