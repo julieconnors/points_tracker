@@ -36,7 +36,7 @@ class PrizesController < ApplicationController
 
     get '/prizes/:id' do
         if logged_in?
-            @prize = Prize.find(params[:id])
+            @prize = Prize.find(params[:id]) #add find_prize helper method??
 
             erb :"/prizes/show"
         else
@@ -46,7 +46,7 @@ class PrizesController < ApplicationController
 
     get '/prizes/:id/edit' do
         if logged_in?
-            @prize = Prize.find(params[:id])
+            @prize = Prize.find(params[:id]) #add find prize helper method??
             @user = current_user
 
             erb :"/prizes/edit"
@@ -57,27 +57,34 @@ class PrizesController < ApplicationController
 
     patch '/prizes/:id' do
         @user = current_user
-        @prize = Prize.find(params[:id])
+        @prize = Prize.find(params[:id]) #add find_prize helper method??
 
         if prize_valid?(params)
             @horseshow = Horseshow.find_or_create_by(params[:horseshow])
             @horse = Horse.find(params[:horse_id])
             @prize.update(point_total: params[:point_total], horseshow_id: @horseshow.id, horse_id: @horse.id, user_id: @user.id)
 
-            redirect "/prizes"
+            redirect "/prizes/#{@prize.id}"
         else
             "Prize input is invalid"
         end
     end
 
     delete '/prizes/:id' do
-        if logged_in?
-            prize = Prize.find(params[:id])
+        if logged_in? # is this necessary
+            prize = Prize.find(params[:id]) #add find_prize helper method??
             prize.destroy
 
             redirect to "/prizes"
         else
             redirect "/login"
+        end
+    end
+
+    helpers do
+    
+        def prize_valid?(params)
+            return params[:horse_id] != nil && !params[:horseshow][:name].empty? && !params[:horseshow][:location].empty? && params[:point_total].to_i > 0
         end
     end
 end

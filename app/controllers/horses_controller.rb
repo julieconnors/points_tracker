@@ -19,7 +19,6 @@ class HorsesController < ApplicationController
 
     post '/horses' do
         #do I need login validation on post routes??
-        binding.pry
         if !Horse.find_by(name: params[:name].capitalize)
             @horse = Horse.new(name: params[:name])
             @horse.user_id = session[:user_id]

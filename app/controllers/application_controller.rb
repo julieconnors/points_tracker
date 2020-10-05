@@ -28,9 +28,5 @@ class ApplicationController < Sinatra::Base
     def current_user
       User.find(session[:user_id])
     end
-
-    def prize_valid?(params)
-      return params[:horse_id] != nil && !params[:horseshow][:name].empty? && !params[:horseshow][:location].empty? && params[:point_total].to_i > 0
-    end
   end
 end
