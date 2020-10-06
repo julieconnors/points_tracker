@@ -39,8 +39,8 @@ class ApplicationController < Sinatra::Base
       end
     end
 
-    def sorted_prizes
-      current_user.prizes.order(:date)
+    def sorted_horseshows
+      current_user.horseshows.order(:date).uniq
     end
   end
 end
