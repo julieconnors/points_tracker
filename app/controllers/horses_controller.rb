@@ -30,7 +30,12 @@ class HorsesController < ApplicationController
         logged_out_redirection
         @horse = Horse.find_by_slug(params[:slug])
 
-        erb :"/horses/show"
+        if current_user.id == @horse.user_id
+
+            erb :"/horses/show"
+        else
+            erb :"/access-error"
+        end
     end
 
     get '/horses/:slug/edit' do

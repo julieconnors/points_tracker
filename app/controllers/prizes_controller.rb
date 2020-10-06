@@ -12,6 +12,7 @@ class PrizesController < ApplicationController
     end
 
     post '/prizes' do
+        binding.pry
         logged_out_redirection #is this necessary???
         if prize_valid?(params)
             @horse = Horse.find(params[:horse_id])

@@ -24,7 +24,7 @@
 <h2>View Points By Horse Show:</h2>
     
         <% current_user.horseshows.uniq.each do |show| %>
-            <a href="/horseshows/<%= show.slug %>"><%= show.name %></a><br>
+            <a href="/horseshows/<%= show.id %>"><%= show.name %></a><br>
         <% end %>
 
     <button><a href="/prizes">All Prizes</a></button>

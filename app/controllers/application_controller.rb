@@ -12,9 +12,8 @@ class ApplicationController < Sinatra::Base
 
   get "/" do
     if logged_in?
-      @user = current_user
 
-      redirect "/users/#{@user.slug}"
+      redirect "/users/#{current_user.slug}"
     else
       erb :index
     end
@@ -25,21 +24,21 @@ class ApplicationController < Sinatra::Base
   end
 
   helpers do 
-    def logged_in?
+    def logged_in? #checks if a user is logged in
       !!session[:user_id]
     end
 
-    def current_user
+    def current_user #finds User object matching session user_id
       User.find(session[:user_id])
     end
 
-    def logged_out_redirection
+    def logged_out_redirection #checks if a user is not logged in and redirects to login page
       if !logged_in?
         redirect "/login"
       end
     end
 
-    def sorted_horseshows
+    def sorted_horseshows #sorts horseshows by date
       current_user.horseshows.order(:date).uniq
     end
   end

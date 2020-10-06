@@ -6,7 +6,7 @@
 <div class="display">
     <h1>Horse Shows</h1>
         <% current_user.horseshows.uniq.each do |show| %>
-            <a href="/horseshows/<%=show.slug %>"><%= show.name%></a>: <%= show.location %><br>
+            <a href="/horseshows/<%=show.id %>"><%= show.name%></a>: <%= show.location %><br>
         <% end %>
     <br>
 </div>

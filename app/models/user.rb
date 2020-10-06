@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
     has_secure_password
     validates_presence_of :username, :password, :name
 
-    def list_horse_shows
+    def list_horse_shows #finds unique horseshows for a specific user
         self.horseshows.map{|show| show.name}.uniq
     end
 
