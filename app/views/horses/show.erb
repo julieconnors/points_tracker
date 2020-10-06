@@ -14,8 +14,6 @@
     <% end %>
 <br>
     <button><a href="/horses/<%= @horse.slug %>/edit">Edit Horse</a></button>
-    <button><a href="/prizes/new">Add Prize</a></button><br>
-
 
     <form action="/horses/<%= @horse.id %>" method="post">
         <input type="hidden" id="hidden" name="_method" value="delete">

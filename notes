@@ -1,8 +1,8 @@
 - check routes/ conventions for RESTful routes
 
+- add validity check for horse forms
+
 - module for slug methods??
 
-- add date to prize forms
-
-- validate date input
-- can horseshows be sorted with different date types???
+- add horse point total to show page
+- sort horseshows on horse show page by date

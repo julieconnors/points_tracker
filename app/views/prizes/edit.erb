@@ -14,7 +14,7 @@
   <input type="text" name="horseshow[location]" id="horseshow_location" value="<%= @prize.horseshow.location %>"> </br>
 
   <label for="horseshow_date">Date: </label>
-  <input type="text" name="horseshow[date]" id="horseshow_date" value="<%= @prize.horseshow.date %>"> </br>
+  <input type="date" name="horseshow[date]" id="horseshow_date" value="<%= @prize.horseshow.date %>"> </br>
   <br>
   <label>Horses: </label><br>
   <% current_user.horses.each do |horse| %>
