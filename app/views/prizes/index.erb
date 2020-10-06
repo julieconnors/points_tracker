@@ -6,14 +6,15 @@
 <div class="display">
     <h1>All Prizes</h1>
         <% sorted_prizes.each do |prize| %>
+            
             <%= prize.date %>: <%= Horseshow.find_by(id: prize.horseshow_id).name %><br><br>
             <%= Horse.find_by(id: prize.horse_id).name%>: <%= prize.point_total %>
-            <a href="/prizes/<%= prize.id %>">Edit</a>
-            <form action="/prizes/<%= prize.id %>" method="post">
-                <input type="hidden" id="hidden" name="_method" value="delete">
-                <input type="submit" id="submit-delete" value="remove">   
-            </form>
-        <% end %>
+                <a href="/prizes/<%= prize.id %>">Edit</a>
+                <form action="/prizes/<%= prize.id %>" method="post">
+                    <input type="hidden" id="hidden" name="_method" value="delete">
+                    <input type="submit" id="submit-delete" value="remove">   
+                </form>
+            <% end %>
     <br>
     <button><a href="/prizes/new">Add Prize</a></button><br>
 </div>

@@ -1,8 +1,11 @@
-- check routes
+- check routes/ conventions for RESTful routes
+
 - module for slug methods??
-- check conventions for RESTful routes
 
 - fix horseshow show page, so it only lists a horse once
 
 - add date to prize forms
 - edit horse show page to total points
+
+
+- prizes shouldn't have a date horse shows should have a date

@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 9) do
   create_table "horseshows", force: :cascade do |t|
     t.string "name"
     t.string "location"
+    t.string "date"
   end
 
   create_table "prizes", force: :cascade do |t|
@@ -28,7 +29,6 @@ ActiveRecord::Schema.define(version: 9) do
     t.integer "horse_id"
     t.integer "horseshow_id"
     t.integer "user_id"
-    t.string  "date"
   end
 
   create_table "users", force: :cascade do |t|
