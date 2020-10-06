@@ -22,6 +22,12 @@ a:hover, a:active {
 	color: mediumvioletred;
 }
 
+button.home {
+    margin-left: 50px;
+    width: 10%;
+    border-radius: 0;
+}
+
 h1 {
     color: black;
     text-align: center;
@@ -87,8 +93,13 @@ button a:hover, a:active {
 	color: mediumvioletred;
 }
 
+button.logout {
+    border-radius: 0;
+    margin-left: 50px;
+    width: 10%;
+}
+
 button.logout a:link {
-    font-weight: bold;
     color: goldenrod;
 }
 

@@ -1,15 +1,8 @@
 - check routes
 - module for slug methods??
 - check conventions for RESTful routes
-- messages instead of error views???
-- add checks to view pages so they redirect if user is not logged in
 
--**Need to validate user input for creating Prizes**
+- fix horseshow show page, so it only lists a horse once
 
-- verify prize belongs to user to edit**
-
-- can edit/delete button be made unavailable to users that don't own the horse or prize??
-
-- fix nav logout route
-
-- add helper methods to find horses and find prizes
+- **add date to prizes and sort by date
+- edit horse show page to total points

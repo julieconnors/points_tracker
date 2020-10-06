@@ -24,7 +24,7 @@ class PrizesController < ApplicationController
         
             redirect "/users/#{@user.slug}"
         else
-            "Prize input is invalid" #link to an error page??
+            redirect "/prizes/invalid-input"
         end
     end
 
@@ -53,16 +53,16 @@ class PrizesController < ApplicationController
 
     patch '/prizes/:id' do
         logged_out_redirection #is this necessary??
-        @prize = Prize.find(params[:id]) #add find_prize helper method??
+        @prize = Prize.find(params[:id])
 
         if prize_valid?(params)
             @horseshow = Horseshow.find_or_create_by(params[:horseshow])
             @horse = Horse.find(params[:horse_id])
-            @prize.update(point_total: params[:point_total], horseshow_id: @horseshow.id, horse_id: @horse.id, user_id: cuurent_user.id)
+            @prize.update(point_total: params[:point_total], horseshow_id: @horseshow.id, horse_id: @horse.id, user_id: current_user.id)
 
             redirect "/prizes/#{@prize.id}"
         else
-            "Prize input is invalid"
+            redirect "/prizes/invalid-input"
         end
     end
 

@@ -1,9 +1,12 @@
+<nav>
+    <button class="home"><a href="/"><strong>Home</strong></a></button>
+    <button class="logout"><a href="/logout"><strong>Logout</strong></a></button>
+</nav>
+
 <div class="display">
     <h1>Horses</h1>
         <% @user.horses.each do |horse| %>
             <a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br>
         <% end %>
-        <br>
-        <button><a href="/users/<%= @user.slug %>">Home</a></button>
     <br>
 </div>

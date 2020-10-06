@@ -1,9 +1,12 @@
+<nav>
+    <button class="home"><a href="/"><strong>Home</strong></a></button>
+    <button class="logout"><a href="/logout"><strong>Logout</strong></a></button>
+</nav>
+
 <div class="display">
     <h1>Horse Shows</h1>
         <% Horseshow.all.each do |show| %>
             <a href="/horseshows/<%=show.slug %>"><%= show.name%></a>: <%= show.location %><br>
         <% end %>
-        <br>
-        <button><a href="/account">Home</a></button>
     <br>
 </div>

@@ -1,3 +1,8 @@
+<nav>
+    <button class="home"><a href="/"><strong>Home</strong></a></button>
+    <button class="logout"><a href="/logout"><strong>Logout</strong></a></button>
+</nav>
+
 <div class="display">
     <br>
     <% horse = Horse.find(@prize.horse_id) %>
@@ -11,12 +16,10 @@
     <strong>Location: </strong><%= horseshow.location %><br><br>
 
     <strong>Points: </strong><%= @prize.point_total %><br>
-    <button><a href="/prizes/<%= @prize.id %>/edit">Edit Prize</a></button>
+    <button><a href="/prizes/<%= @prize.id %>/edit">Edit</a></button>
 
     <form action="/prizes/<%= @prize.id %>" method="post">
         <input type="hidden" id="hidden" name="_method" value="delete">
-        <input type="submit" id="submit-delete" value="remove prize">   
+        <input type="submit" id="submit-delete" value="remove">   
     </form>
-
-    <button><a href="/account">Home</a></button>
 </div>

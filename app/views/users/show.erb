@@ -1,10 +1,13 @@
-<% @user = current_user %>
+<nav>
+    <button class="home"><a href="/"><strong>Home</strong></a></button>
+    <button class="logout"><a href="/logout"><strong>Logout</strong></a></button> 
+</nav>
 
 <div class="display"><h1>Welcome <%= @user.name %>!</h1>
 
 <h2>All Horses:</h2>
     
-        <% @user.horses.each do |horse| %>
+        <% current_user.horses.each do |horse| %>
             <a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br>
         <% end %>
     
@@ -13,22 +16,20 @@
 
 <h2>Total Points By Horse:</h2>
     
-        <% @user.horses.each do |horse| %>
+        <% current_user.horses.each do |horse| %>
             <%= horse.name %>: <%= horse.point_total %><br>
         <% end %>
     
 
 <h2>View Points By Horse Show:</h2>
     
-        <% @user.horseshows.uniq.each do |show| %>
+        <% current_user.horseshows.uniq.each do |show| %>
             <a href="/horseshows/<%= show.slug %>"><%= show.name %></a><br>
         <% end %>
 
     <button><a href="/prizes">All Prizes</a></button>
 
-    <button><a href="/prizes/new">Add Prize</a></button><br>
-<br>
-<button class="logout"><a href="/logout">Log Out</a></button>
+    <button><a href="/prizes/new">Add Prize</a></button>
 </div>
 
 

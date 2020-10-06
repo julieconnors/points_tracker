@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8) do
+ActiveRecord::Schema.define(version: 9) do
 
   create_table "horses", force: :cascade do |t|
     t.string  "name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 8) do
     t.integer "horse_id"
     t.integer "horseshow_id"
     t.integer "user_id"
+    t.string  "date"
   end
 
   create_table "users", force: :cascade do |t|
