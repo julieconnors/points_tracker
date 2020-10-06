@@ -5,11 +5,11 @@
 
 <div class="display">
     <br>
-    <% horse = Horse.find(@prize.horse_id) %>
+    <% horse = Horse.find_by(id: @prize.horse_id) %>
     
     <strong>Horse: </strong><a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br><br>
     
-    <% horseshow = Horseshow.find(@prize.horseshow_id) %> 
+    <% horseshow = Horseshow.find_by(id: @prize.horseshow_id) %> 
 
     <strong>Horseshow: </strong><a href="/horseshows/<%= horseshow.slug %>"><%= horseshow.name %></a><br><br>
 

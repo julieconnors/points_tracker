@@ -1,28 +1,25 @@
 class PrizesController < ApplicationController
     get '/prizes/new' do
         logged_out_redirection
-        @user = current_user
         
         erb :"/prizes/new"        
     end
 
     get '/prizes' do
         logged_out_redirection
-        @user = current_user
 
         erb :"/prizes/index"
     end
 
     post '/prizes' do
         logged_out_redirection #is this necessary???
-        @user = current_user
         if prize_valid?(params)
             @horse = Horse.find(params[:horse_id])
             @horseshow = Horseshow.find_or_create_by(params[:horseshow])
         
             @prize = Prize.create(point_total: params[:point_total], horse_id: @horse.id, horseshow_id: @horseshow.id, user_id: @horse.user_id)
         
-            redirect "/users/#{@user.slug}"
+            redirect "/users/#{current_user.slug}"
         else
             redirect "/prizes/invalid-input"
         end

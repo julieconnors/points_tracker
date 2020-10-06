@@ -38,5 +38,9 @@ class ApplicationController < Sinatra::Base
         redirect "/login"
       end
     end
+
+    def sorted_prizes
+      current_user.prizes.order(:date)
+    end
   end
 end

@@ -8,7 +8,7 @@
 
 <form action="/prizes" method="post">
     <h2>Horse</h2>
-        <% @user.horses.each do |horse| %>
+        <% current_user.horses.each do |horse| %>
             <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>"><br>
         <% end %>
         
