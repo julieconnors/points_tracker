@@ -2,10 +2,7 @@
 
 - module for slug methods??
 
-- fix horseshow show page, so it only lists a horse once
-
 - add date to prize forms
-- edit horse show page to total points
 
-
-- prizes shouldn't have a date horse shows should have a date
+- validate date input
+- can horseshows be sorted with different date types???

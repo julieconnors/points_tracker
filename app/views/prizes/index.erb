@@ -8,12 +8,7 @@
         <% sorted_horseshows.each do |horseshow| %>
             <h2><%= horseshow.date %>: <%= horseshow.name %></h2>
                 <% horseshow.prizes.each do |prize| %>
-                <%= Horse.find_by(id: prize.horse_id).name%>: <%= prize.point_total %>
-                    <a href="/prizes/<%= prize.id %>">Edit</a>
-                    <form action="/prizes/<%= prize.id %>" method="post">
-                        <input type="hidden" id="hidden" name="_method" value="delete">
-                        <input type="submit" id="submit-delete" value="remove">   
-                    </form>
+                    <a href="/prizes/<%= prize.id %>"><%= Horse.find_by(id: prize.horse_id).name%>: <%= prize.point_total %> points</a><br>
                 <%end%>
             <% end %>
     <br>
