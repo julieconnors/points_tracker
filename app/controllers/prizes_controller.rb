@@ -11,8 +11,11 @@ class PrizesController < ApplicationController
         erb :"/prizes/index"
     end
 
+    get '/prizes/invalid' do
+        erb :"/prizes/invalid-input"
+    end
+
     post '/prizes' do
-        binding.pry
         logged_out_redirection #is this necessary???
         if prize_valid?(params) #uses helper method to check is params are valid
             horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
@@ -22,7 +25,7 @@ class PrizesController < ApplicationController
         
             redirect "/users/#{current_user.slug}"
         else
-            redirect "/prizes/invalid-input"
+            redirect "/prizes/invalid"
         end
     end
 
@@ -61,7 +64,7 @@ class PrizesController < ApplicationController
 
             redirect "/prizes/#{prize.id}"
         else
-            redirect "/prizes/invalid-input"
+            redirect "/prizes/invalid"
         end
     end
 
@@ -76,7 +79,7 @@ class PrizesController < ApplicationController
     helpers do
     
         def prize_valid?(params)
-            return params[:horse_id] != nil && !params[:horseshow][:name].empty? && !params[:horseshow][:location].empty? && params[:point_total].to_i > 0
+            return params[:horse_id] != nil && params[:horseshow][:date] != "" && !params[:horseshow][:name].empty? && !params[:horseshow][:location].empty? && params[:point_total].to_i > 0
         end
     end
 end
