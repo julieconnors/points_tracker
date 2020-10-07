@@ -12,6 +12,7 @@ class PrizesController < ApplicationController
     end
 
     post '/prizes' do
+        binding.pry
         logged_out_redirection #is this necessary???
         if prize_valid?(params) #uses helper method to check is params are valid
             horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params

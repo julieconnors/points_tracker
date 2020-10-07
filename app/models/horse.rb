@@ -19,4 +19,8 @@ class Horse < ActiveRecord::Base
     def self.find_by_slug(slug)
         self.all.find { |horse| horse.slug == slug }
     end
+
+    def horses_sorted_horseshows #sorts horseshows by date
+        self.horseshows.order(:date)
+    end
 end

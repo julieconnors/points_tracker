@@ -92,6 +92,6 @@ class HorsesController < ApplicationController
     helpers do
         def horse_valid? #checks that name field is not an empty string and there is not already a horse by the name provided
             return params[:name] != "" && !Horse.find_by(name: params[:name].capitalize)
-        end
+        end  
     end
 end

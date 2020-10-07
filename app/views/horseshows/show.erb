@@ -11,7 +11,7 @@
 <br>
 <h3>Points By Horse:</h3>
     <% @horseshow.horses.each do |horse| %>
-        <a href="/horses/<%= horse.slug %>"><%= horse.name %></a>: <%= horse.point_total_by_horseshow(@horseshow.id)%><br>
+        <a href="/horses/<%= horse.slug %>"><%= horse.name %></a>: <%= horse.point_total_by_horseshow(@horseshow.id) %> points<br>
     <% end %>
     <br>
 </div>
