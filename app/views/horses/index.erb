@@ -5,7 +5,7 @@
 
 <div class="display">
     <h1>Horses</h1>
-        <% @user.horses.each do |horse| %>
+        <% current_user.horses.each do |horse| %>
             <a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br>
         <% end %>
     <br>
