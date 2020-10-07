@@ -7,6 +7,7 @@ class UsersController < ApplicationController
     get '/users/:slug' do
         if logged_in?
             @user = User.find_by_slug(params[:slug])
+
 			erb :"/users/show"
 		else
 			redirect "/login"
@@ -32,13 +33,13 @@ class UsersController < ApplicationController
     end
 
     post '/signup' do
-        if !User.find_by(username: params[:username])
-            @user = User.new(params)
-            if @user.save #if params include username, name and password, @user can be persisted
-                session[:user_id] = @user.id
-                redirect to "/users/#{@user.slug}"
+        if !User.find_by(username: params[:username]) #checks if there is a user by this username
+            user = User.new(params) #instantiates new user
+            if user.save #this validates params input, if user can be persisted, params includes username, password, and name
+                session[:user_id] = user.id #logs user in by assign session user_id to new user
+                redirect to "/users/#{user.slug}"
 		    else
-			    redirect "/signup_error" #include error message instead???
+			    redirect "/signup_error"
             end
         else
             redirect "/signup_error"
