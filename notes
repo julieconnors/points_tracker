@@ -1,5 +1,6 @@
 - check routes/ conventions for RESTful routes
 
+- should sorted horseshow helper method be somewhere else???
 - add validity check for horse forms
 
 - module for slug methods??

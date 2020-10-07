@@ -12,18 +12,12 @@ class HorsesController < ApplicationController
         erb :"/horses/new"
     end
 
-    post '/horses' do
-        logged_out_redirection #do I need login validation on post routes??
-        
-        if !Horse.find_by(name: params[:name].capitalize) #checks if there is already a horse by the same new
-            horse = Horse.new(name: params[:name]) #instantiates new horse
-            horse.user_id = current_user.id #assigns horse user_id to that of current_user
-            horse.save #saves horse with user_id set
-
-            redirect "/horses/#{horse.slug}"
-        else
-            redirect "/horses/duplicate-error"
-        end
+    get '/horses/invalid-input' do
+        erb :"/horses/invalid-input"
+    end
+    
+    get '/horses/duplicate' do
+        erb :"/horses/duplicate-error"
     end
 
     get '/horses/:slug' do
@@ -35,6 +29,19 @@ class HorsesController < ApplicationController
             erb :"/horses/show"
         else
             erb :"/access-error"
+        end
+    end
+
+    post '/horses' do
+        logged_out_redirection #do I need login validation on post routes??
+        if horse_valid?
+                horse = Horse.new(name: params[:name]) #instantiates new horse
+                horse.user_id = current_user.id #assigns horse user_id to that of current_user
+                horse.save #saves horse with user_id set
+
+                redirect "/horses/#{horse.slug}"
+        else
+            redirect "/horses/invalid-input"
         end
     end
 
@@ -52,12 +59,17 @@ class HorsesController < ApplicationController
 
     patch '/horses/:slug' do
         logged_out_redirection # is this necessary
+
         horse = Horse.find_by_slug(params[:slug])
 
         if horse.user_id == current_user.id #if horse belongs to current_user
-            horse.update(name: params[:name]) #update horse with params data
+            if horse_valid?
+                horse.update(name: params[:name]) #update horse with params data
 
-            redirect "/horses/#{horse.slug}"
+                redirect "/horses/#{horse.slug}"
+            else
+                redirect "/horses/invalid-input"
+            end
         else
             redirect "/access-error" # is this necessary
         end
@@ -74,6 +86,12 @@ class HorsesController < ApplicationController
             redirect "/users/#{current_user.slug}"
         else
             redirect "/access-error"
+        end
+    end
+
+    helpers do
+        def horse_valid? #checks that name field is not an empty string and there is not already a horse by the name provided
+            return params[:name] != "" && !Horse.find_by(name: params[:name].capitalize)
         end
     end
 end
