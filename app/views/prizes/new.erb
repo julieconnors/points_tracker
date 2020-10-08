@@ -7,12 +7,17 @@
 <h1>Add Prize</h1>
 
 <form action="/prizes" method="post">
-    <h2>Horse</h2>
+    <h3>Horse</h3>
         <% current_user.horses.each do |horse| %>
             <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>"><br>
         <% end %>
-        
+
     <h3>Horse Show: </h3>
+
+        <% current_user.horseshows.uniq.each do |show| %>
+            <%= show.name %><input id="<%= show.name %>" type="checkbox" name="horseshow[id]" value="<%= show.id %>"><br>
+        <% end %>
+    <br>
     <label>Name: </label><br>
         <input type="text" name="horseshow[name]" id="horseshow_name"><br>
     <label>Date: </label><br>
@@ -20,7 +25,7 @@
     <label>Location: </label><br>
         <input type="text" name="horseshow[location]" id="horseshow_location"><br>
 
-    <label>Add Points: </label><br>
+    <h3>Add Points: </h3>
         <input type="text" name="point_total" id="points_value"><br>
     
     <input type="submit" id="submit" value="Add Prize">

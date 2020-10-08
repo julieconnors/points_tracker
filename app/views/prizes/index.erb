@@ -6,9 +6,11 @@
 <div class="display">
     <h1>All Prizes</h1>
         <% sort_horseshows_from_current_user.each do |horseshow| %>
-            <h2><%= horseshow.format_date %>: <%= horseshow.name %></h2>
+            <h3><%= horseshow.format_date %>: <%= horseshow.name %></h3>
                 <% horseshow.prizes.each do |prize| %>
-                    <a href="/prizes/<%= prize.id %>"><%= Horse.find_by(id: prize.horse_id).name%>: <%= prize.point_total %> points</a><br>
+                    
+                <%= Horse.find_by(id: prize.horse_id).name%>: <%= prize.point_total %> points 
+                <button><a href="/prizes/<%= prize.id %>">Edit/Remove</a></button><br>
                 <%end%>
             <% end %>
     <br>

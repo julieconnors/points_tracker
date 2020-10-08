@@ -6,14 +6,19 @@
 <div class="display">
 
 <h1><%= @horse.name %></h1>
-<strong>Point Total: </strong><%= @horse.point_total %><br><br>
+
+    <button><a href="/horses/<%= @horse.slug %>/edit">Edit Horse</a></button><br><br>
+
+<strong>Point Total: </strong><%= @horse.point_total %><br>
+
 <h3>Points By Horse Show:</h3>
     <% @horse.sort_horseshows_from_horses_list.each do |show| %>            
         <h4><%= show.format_date %> <a href="/horseshows/<%= show.id %>"><%= show.name %></a></h4>  
         Points: <%= show.prizes.find{|prize| prize.horse_id == @horse.id }.point_total %><br>
     <% end %>
 <br>
-    <button><a href="/horses/<%= @horse.slug %>/edit">Edit Horse</a></button>
+    
+    <button><a href="/prizes">All Prizes</a></button>
     <button><a href="/prizes/new">Add Prize</a></button>
 
     <form action="/horses/<%= @horse.id %>" method="post">

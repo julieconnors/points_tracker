@@ -17,16 +17,25 @@ class PrizesController < ApplicationController
 
     post '/prizes' do
         logged_out_redirection #is this necessary???
-        if prize_valid?(params) #uses helper method to check is params are valid
+        if params[:horseshow][:id] != nil && prize_valid?(params) #checks if params includes horseshow id (meaning the horseshow exists) and if prize input is valid
+            horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
+                
             horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
-            horseshow = Horseshow.find_or_create_by(params[:horseshow]) #finds or creates horseshow by params
         
             prize = Prize.create(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
         
             redirect "/users/#{current_user.slug}"
+        elsif params[:horseshow][:id] == nil && prize_valid?(params) && show_input_valid?(params) #checks if horse show does not exist, if prize input is valid and if horseshow input is valid
+            horseshow = Horseshow.create(params[:horseshow]) #creates horseshow by params
+            
+            horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
+            
+            prize = Prize.create(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
+
+            redirect "/users/#{current_user.slug}"
         else
             redirect "/prizes/invalid"
-        end
+        end    
     end
 
     get '/prizes/:id' do
@@ -79,7 +88,11 @@ class PrizesController < ApplicationController
     helpers do
     
         def prize_valid?(params)
-            return params[:horse_id] != nil && params[:horseshow][:date] != "" && !params[:horseshow][:name].empty? && !params[:horseshow][:location].empty? && params[:point_total].to_i > 0
+            params[:horse_id] != nil && params[:point_total].to_i > 0
+        end
+
+        def show_input_valid?(params)
+            params[:horseshow][:date] != "" && !params[:horseshow][:name].empty? && !params[:horseshow][:location].empty?
         end
     end
 end
