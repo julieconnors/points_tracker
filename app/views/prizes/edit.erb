@@ -4,24 +4,34 @@
 </nav>
 
 <div class="display"><h1>Edit Prize</h1>
-<form action="/prizes/<%= @prize.id %>" method="post">
-  <input type="hidden" id="hidden" name="_method" value="patch">
+  <form action="/prizes/<%= @prize.id %>" method="post">
+    <input type="hidden" id="hidden" name="_method" value="patch">
+
+    <h3>Horses:</h3><br>
+      <% current_user.horses.each do |horse| %>
+        <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>" <%='checked' if @prize.horse_id == horse.id %>><br>
+      <% end %>
+    <br>
+
+  <h3>Horse Show:</h3>
+
+      <% sort_horseshows_from_current_user.each do |show| %>
+          <input id="<%= show.name %>" type="checkbox" name="horseshow[id]" value="<%= show.id %>"><%= show.name %> - <%= show.format_date %><br>
+      <% end %>
+    <br>
   
-  <label for="horseshow_name">Horse Show:</label>
-  <input type="text" name="horseshow[name]" id="horseshow_name" value="<%= @prize.horseshow.name %>"> </br>
+  <h4>Add Show</h4>
+    <label for="horseshow_name">Name:</label>
+      <input type="text" name="horseshow[name]" id="horseshow_name" value="<%= @prize.horseshow.name %>"> </br>
 
-  <label for="horseshow_location">Location: </label>
-  <input type="text" name="horseshow[location]" id="horseshow_location" value="<%= @prize.horseshow.location %>"> </br>
+    <label for="horseshow_location">Location: </label>
+      <input type="text" name="horseshow[location]" id="horseshow_location" value="<%= @prize.horseshow.location %>"> </br>
 
-  <label for="horseshow_date">Date: </label>
-  <input type="date" name="horseshow[date]" id="horseshow_date" value="<%= @prize.horseshow.date %>"> </br>
-  <br>
-  <label>Horses: </label><br>
-  <% current_user.horses.each do |horse| %>
-    <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>" <%='checked' if @prize.horse_id == horse.id %>><br>
-  <% end %>
-  <br>
-  <label>Point Total: </label>
+    <label for="horseshow_date">Date: </label>
+      <input type="date" name="horseshow[date]" id="horseshow_date" value="<%= @prize.horseshow.date %>"> </br>
+    <br>
+  
+  <h3>Point Total:</h3>
     <input type="text" name="point_total" id="point_total" value="<%= @prize.point_total %>"><br>
 
   <input type="submit" id="submit" value="Update">

@@ -71,12 +71,27 @@ class PrizesController < ApplicationController
 
     patch '/prizes/:id' do
         binding.pry
-        logged_out_redirection #is this necessary??
+        logged_out_redirection
         prize = Prize.find_by(id: params[:id])
 
-        if prize_valid?(params) #uses helper method to check if params data is valid
-            horseshow = Horseshow.find_or_create_by(params[:horseshow])
+
+        if params[:horseshow][:id] != nil && prize_valid?(params) #checks if params includes horseshow id (meaning the horseshow exists) and if prize input is valid
+            horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
+                
+            horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
+            if !Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id)#check if a prize already exists for that horse and horseshow
+                prize = Prize.update(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
+        
+                redirect "/prizes/#{prize.id}"
+            else
+                redirect "/prizes/duplicate"
+            end
+
+        elsif params[:horseshow][:id] == nil && prize_valid?(params) && show_input_valid?(params)
+            horseshow = Horseshow.create(params[:horseshow])
+            
             horse = Horse.find_by(id: params[:horse_id])
+            
             prize.update(point_total: params[:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
 
             redirect "/prizes/#{prize.id}"
@@ -86,7 +101,7 @@ class PrizesController < ApplicationController
     end
 
     delete '/prizes/:id' do
-        logged_out_redirection # is this necessary
+        logged_out_redirection
         prize = Prize.find_by(id: params[:id])
         prize.destroy
 

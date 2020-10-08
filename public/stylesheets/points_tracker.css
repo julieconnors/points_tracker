@@ -37,6 +37,10 @@ button {
     font-weight: bold;
 } 
 
+table {
+    margin: auto;
+}
+
 li {
     margin-left: 40%;
     margin-right: 25%;

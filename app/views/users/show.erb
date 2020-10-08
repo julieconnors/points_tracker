@@ -19,11 +19,16 @@
     <button><a href="/prizes/new">Add Prize</a></button>
     
 <h2>Point Totals By Horse Show:</h2>
-    <ul>
-        <% current_user.horseshows.uniq.each do |show| %>
-            <li><a href="/horseshows/<%= show.id %>"><%= show.name %></a>: <%= current_user.point_total_by_horseshow(show.id) %></li>
+        <table>
+        <% sort_horseshows_from_current_user.each do |show| %>
+            <tr>
+            <td><%= show.format_date %></td>
+            <td><a href="/horseshows/<%= show.id %>"><%= show.name %></a></td>
+            <td><%= current_user.point_total_by_horseshow(show.id) %></td>
+            </tr>
         <% end %>
-    </ul>
+        </table>
+        <br>
 
     <button><a href="/horseshows">All Horseshows</a></button><br>
 
