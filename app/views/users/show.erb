@@ -5,31 +5,28 @@
 
 <div class="display"><h1>Welcome <%= current_user.name %>!</h1>
 
-<h2>All Horses:</h2>
-    
+<button><a href="/horses">All Horses</a></button>
+<button><a href="/horses/new">Add Horse</a></button>
+
+<h2>Horse Point Totals:</h2>
+    <ul>
         <% current_user.horses.each do |horse| %>
-            <a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br>
+            <li><a href="/horses/<%= horse.slug %>"><%= horse.name %></a>: <%= horse.point_total %></li>
         <% end %>
+    </ul>
     
-
-    <button><a href="/horses/new">Add Horse</a></button>
-
-<h2>Total Points By Horse:</h2>
-    
-        <% current_user.horses.each do |horse| %>
-            <%= horse.name %>: <%= horse.point_total %><br>
-        <% end %>
-    
-
-<h2>View Points By Horse Show:</h2>
-    
-        <% current_user.horseshows.uniq.each do |show| %>
-            <a href="/horseshows/<%= show.id %>"><%= show.name %></a><br>
-        <% end %>
-
     <button><a href="/prizes">All Prizes</a></button>
-
     <button><a href="/prizes/new">Add Prize</a></button>
+    
+<h2>Point Totals By Horse Show:</h2>
+    <ul>
+        <% current_user.horseshows.uniq.each do |show| %>
+            <li><a href="/horseshows/<%= show.id %>"><%= show.name %></a>: <%= current_user.point_total_by_horseshow(show.id) %></li>
+        <% end %>
+    </ul>
+
+    <button><a href="/horseshows">All Horseshows</a></button><br>
+
 </div>
 
 

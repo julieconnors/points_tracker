@@ -1,9 +1,6 @@
 - check routes/ conventions for RESTful routes
+- module for slug methods??
 
 - should sorted horseshow helper method be somewhere else?? prize controller?
 
-- module for slug methods??
-
-- add horse point total to show page
-
-- order horseshow show pages by point total
+- add option to prizes to choose from an existing horse show

@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
         self.horseshows.map{|show| show.name}.uniq
     end
 
+    def point_total_by_horseshow(show_id) #find a users's point total from a particular show
+        self.prizes.select{|prize| prize.horseshow_id == show_id}.map{|prize| prize.point_total}.sum
+    end
+
     def slug
         self.username.downcase.gsub(" ", "-")
     end

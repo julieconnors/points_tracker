@@ -38,7 +38,7 @@ class ApplicationController < Sinatra::Base
       end
     end
 
-    def sorted_horseshows #sorts horseshows by date
+    def sort_horseshows_from_current_user #sorts horseshows by date from users list of horseshows
       current_user.horseshows.order(:date).uniq
     end
   end

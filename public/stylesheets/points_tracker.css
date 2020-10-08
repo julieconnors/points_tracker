@@ -37,6 +37,12 @@ button {
     font-weight: bold;
 } 
 
+li {
+    margin-left: 40%;
+    margin-right: 25%;
+    text-align: left;
+}
+
 #homepage {
     width: 45%;
     margin-bottom: 30%;

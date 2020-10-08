@@ -20,7 +20,7 @@ class Horse < ActiveRecord::Base
         self.all.find { |horse| horse.slug == slug }
     end
 
-    def horses_sorted_horseshows #sorts horseshows by date
+    def sort_horseshows_from_horses_list #sorts horseshows by date from horses list of horse shows
         self.horseshows.order(:date)
     end
 end

@@ -11,7 +11,7 @@
     
     <% horseshow = Horseshow.find_by(id: @prize.horseshow_id) %> 
 
-    <strong>Horseshow: </strong><a href="/horseshows/<%= horseshow.slug %>"><%= horseshow.name %></a><br>
+    <strong>Horseshow: </strong><a href="/horseshows/<%= horseshow.id %>"><%= horseshow.name %></a><br>
     <strong>Date: </strong><%= horseshow.format_date %><br>
     <strong>Location: </strong><%= horseshow.location %><br><br>
 
