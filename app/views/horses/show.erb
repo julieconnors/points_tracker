@@ -12,10 +12,18 @@
 <strong>Point Total: </strong><%= @horse.point_total %><br>
 
 <h3>Points By Horse Show:</h3>
+    <table>
+    <th>Date</th>
+    <th>Horse Show</th>
+    <th>Points</th>
     <% @horse.sort_horseshows_from_horses_list.each do |show| %>            
-        <h4><%= show.format_date %> <a href="/horseshows/<%= show.id %>"><%= show.name %></a></h4>  
-        Points: <%= show.prizes.find{|prize| prize.horse_id == @horse.id }.point_total %><br>
+        <tr>
+        <td><%= show.format_date %></td> 
+        <td><a href="/horseshows/<%= show.id %>"><%= show.name %></a></td>  
+        <td><%= show.prizes.find{|prize| prize.horse_id == @horse.id }.point_total %></td>
+        </tr>
     <% end %>
+    </table>
 <br>
     
     <button><a href="/prizes">All Prizes</a></button>

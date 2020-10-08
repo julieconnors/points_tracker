@@ -5,14 +5,22 @@
 
 <div class="display">
     <h1>All Prizes</h1>
-        <% sort_horseshows_from_current_user.each do |horseshow| %>
+        <% sort_horseshows_from_current_user.each do |horseshow| %> 
             <h3><%= horseshow.format_date %>: <%= horseshow.name %></h3>
-                <% horseshow.prizes.each do |prize| %>
-                    
-                <%= Horse.find_by(id: prize.horse_id).name%>: <%= prize.point_total %> points 
-                <button><a href="/prizes/<%= prize.id %>">Edit/Remove</a></button><br>
-                <%end%>
-            <% end %>
+                <table>
+                <th>Horse</th>
+                <th>Points</th>
+                <th>Prize Page</th>
+                    <% horseshow.prizes.each do |prize| %>
+                    <tr>
+                        <% horse = Horse.find_by(id: prize.horse_id) %>
+                        <td><a href="<%= horse.slug %>"><%= horse.name %></a></td>
+                        <td><%= prize.point_total %></td>
+                        <td><a href="/prizes/<%= prize.id %>">Edit/Remove</a></td>
+                    </tr>
+                    <%end%>
+                </table>
+        <% end %>
     <br>
     <button><a href="/prizes/new">Add Prize</a></button><br>
 </div>

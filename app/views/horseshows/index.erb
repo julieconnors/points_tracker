@@ -5,9 +5,17 @@
 
 <div class="display">
     <h1>Horse Shows</h1>
+    <table>
+    <th>Date</th>
+    <th>Name</th>
+    <th>Location</th>
         <% sort_horseshows_from_current_user.each do |show| %>
-            <%= show.format_date %> <a href="/horseshows/<%=show.id %>"><%= show.name%></a><br>
-            Location: <%= show.location %><br><br>
+            <tr>
+            <td><%= show.format_date %></td> 
+            <td><a href="/horseshows/<%=show.id %>"><%= show.name%></a></td>
+            <td><%= show.location %></td>
+            </tr>
         <% end %>
+        </table>
     <br>
 </div>

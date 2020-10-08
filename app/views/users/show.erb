@@ -9,11 +9,14 @@
 <button><a href="/horses/new">Add Horse</a></button>
 
 <h2>Horse Point Totals:</h2>
-    <ul>
+    <table>
         <% current_user.sort_horses_by_points.each do |horse| %>
-            <li><a href="/horses/<%= horse.slug %>"><%= horse.name %></a>: <%= horse.point_total %></li>
+            <tr>
+            <td><a href="/horses/<%= horse.slug %>"><%= horse.name %></a></td>
+            <td><%= horse.point_total %></td>
+            </tr>
         <% end %>
-    </ul>
+    </table>
     
     <button><a href="/prizes">All Prizes</a></button>
     <button><a href="/prizes/new">Add Prize</a></button>

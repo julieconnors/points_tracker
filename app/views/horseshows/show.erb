@@ -10,11 +10,17 @@
 <br>
 <br>
 <h3>Points By Horse:</h3>
-
+    <table>
+    <th>Horse</th>
+    <th>Point Total</th>
     <% @horseshow.sort_by_points.map do |prize| %>
+        <tr>
         <% horse = Horse.find_by(id: prize.horse_id) %>
-        <a href="/horses/<%= horse.slug %>"><%= horse.name %></a>: <%= horse.point_total_by_horseshow(@horseshow.id) %> points<br>
+        <td><a href="/horses/<%= horse.slug %>"><%= horse.name %></a></td> 
+        <td><%= horse.point_total_by_horseshow(@horseshow.id) %></td>
+        </tr>
     <% end %>
-    <br>
+    </table>
+    <br><br>
 </div>
 
