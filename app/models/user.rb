@@ -20,4 +20,8 @@ class User < ActiveRecord::Base
     def self.find_by_slug(slug)
         self.all.find { |user| user.slug == slug }
     end
+
+    def sort_horses_by_points
+        self.horses.sort_by{|horse| horse.point_total}.reverse
+    end
 end

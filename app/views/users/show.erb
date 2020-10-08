@@ -10,7 +10,7 @@
 
 <h2>Horse Point Totals:</h2>
     <ul>
-        <% current_user.horses.each do |horse| %>
+        <% current_user.sort_horses_by_points.each do |horse| %>
             <li><a href="/horses/<%= horse.slug %>"><%= horse.name %></a>: <%= horse.point_total %></li>
         <% end %>
     </ul>
