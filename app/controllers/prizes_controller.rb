@@ -15,16 +15,23 @@ class PrizesController < ApplicationController
         erb :"/prizes/invalid-input"
     end
 
+    get '/prizes/duplicate' do
+        erb :"/prizes/duplicate"
+    end
+
     post '/prizes' do
         logged_out_redirection #is this necessary???
         if params[:horseshow][:id] != nil && prize_valid?(params) #checks if params includes horseshow id (meaning the horseshow exists) and if prize input is valid
             horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
                 
             horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
+            if !Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id)#check if a prize already exists for that horse and horseshow
+                prize = Prize.create(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
         
-            prize = Prize.create(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
-        
-            redirect "/users/#{current_user.slug}"
+                redirect "/users/#{current_user.slug}"
+            else
+                redirect "/prizes/duplicate"
+            end
         elsif params[:horseshow][:id] == nil && prize_valid?(params) && show_input_valid?(params) #checks if horse show does not exist, if prize input is valid and if horseshow input is valid
             horseshow = Horseshow.create(params[:horseshow]) #creates horseshow by params
             
@@ -63,6 +70,7 @@ class PrizesController < ApplicationController
     end
 
     patch '/prizes/:id' do
+        binding.pry
         logged_out_redirection #is this necessary??
         prize = Prize.find_by(id: params[:id])
 
