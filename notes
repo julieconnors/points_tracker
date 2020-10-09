@@ -1,4 +1,5 @@
 - check routes/ conventions for RESTful routes
 - Module for slug methods
 
-- check if prize has already been created
+- check validations
+

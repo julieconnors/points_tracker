@@ -74,7 +74,6 @@ class PrizesController < ApplicationController
         logged_out_redirection
         prize = Prize.find_by(id: params[:id])
 
-
         if params[:horseshow][:id] != nil && prize_valid?(params) #checks if params includes horseshow id (meaning the horseshow exists) and if prize input is valid
             horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
                 
@@ -115,6 +114,7 @@ class PrizesController < ApplicationController
         end
 
         def show_input_valid?(params)
+            #Horseshow.create(params).valid?
             params[:horseshow][:date] != "" && !params[:horseshow][:name].empty? && !params[:horseshow][:location].empty?
         end
     end

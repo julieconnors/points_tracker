@@ -33,15 +33,19 @@ class HorsesController < ApplicationController
     end
 
     post '/horses' do
+        binding.pry
         logged_out_redirection #do I need login validation on post routes??
         if horse_valid?
                 horse = Horse.new(name: params[:name]) #instantiates new horse
                 horse.user_id = current_user.id #assigns horse user_id to that of current_user
                 horse.save #saves horse with user_id set
 
+                flash[:message] = "Created horse"
                 redirect "/horses/#{horse.slug}"
         else
-            redirect "/horses/invalid-input"
+            flash[:error] = "Please enter valid input"
+            redirect "/horses/new"
+            #redirect "/horses/invalid-input"
         end
     end
 
@@ -63,8 +67,8 @@ class HorsesController < ApplicationController
         horse = Horse.find_by_slug(params[:slug])
 
         if horse.user_id == current_user.id #if horse belongs to current_user
-            if horse_valid?
-                horse.update(name: params[:name]) #update horse with params data
+            #if horse_valid?
+            if horse.update!(name: params[:name]) #update horse with params data
 
                 redirect "/horses/#{horse.slug}"
             else
@@ -91,7 +95,7 @@ class HorsesController < ApplicationController
 
     helpers do
         def horse_valid? #checks that name field is not an empty string and there is not already a horse by the name provided
-            return params[:name] != "" && !Horse.find_by(name: params[:name].capitalize)
+            params[:name] != "" && !Horse.find_by(name: params[:name].capitalize)
         end  
     end
 end
