@@ -24,27 +24,20 @@ class HorsesController < ApplicationController
         logged_out_redirection
         @horse = Horse.find_by_slug(params[:slug])
 
-        if current_user.id == @horse.user_id
-
             erb :"/horses/show"
-        else
-            erb :"/access-error"
-        end
     end
 
     post '/horses' do
-        binding.pry
         logged_out_redirection #do I need login validation on post routes??
-        if horse_valid?
-                horse = Horse.new(name: params[:name]) #instantiates new horse
-                horse.user_id = current_user.id #assigns horse user_id to that of current_user
-                horse.save #saves horse with user_id set
+        
+        horse = Horse.new(name: params[:name]) #instantiates new horse
+        horse.user_id = current_user.id #assigns horse user_id to that of current_user
+        if horse.save #saves horse with user_id set
 
-                flash[:message] = "Created horse"
-                redirect "/horses/#{horse.slug}"
+            redirect "/horses/#{horse.slug}"
         else
-            flash[:error] = "Please enter valid input"
-            redirect "/horses/new"
+            @error = "Horse name should contain only letters and numbers"
+            erb :"/horses/new"
             #redirect "/horses/invalid-input"
         end
     end
@@ -64,18 +57,15 @@ class HorsesController < ApplicationController
     patch '/horses/:slug' do
         logged_out_redirection # is this necessary
 
-        horse = Horse.find_by_slug(params[:slug])
+        @horse = Horse.find_by_slug(params[:slug])
 
-        if horse.user_id == current_user.id #if horse belongs to current_user
-            #if horse_valid?
-            if horse.update!(name: params[:name]) #update horse with params data
+        if @horse.update(name: params[:name]) #update horse with params data
 
-                redirect "/horses/#{horse.slug}"
-            else
-                redirect "/horses/invalid-input"
-            end
+            redirect "/horses/#{@horse.slug}"
         else
-            redirect "/access-error" # is this necessary
+            @error = "Horse name should contain only letters and numbers"
+
+            erb :"/horses/edit"
         end
     end
 
@@ -84,13 +74,9 @@ class HorsesController < ApplicationController
         
         horse = Horse.find_by(id: params[:id]) #delete form sends id value through params
         
-        if horse.user_id == current_user.id
-            horse.destroy
+        horse.destroy
 
-            redirect "/users/#{current_user.slug}"
-        else
-            redirect "/access-error"
-        end
+        redirect "/users/#{current_user.slug}"
     end
 
     helpers do

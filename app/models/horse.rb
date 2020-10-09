@@ -2,8 +2,7 @@ class Horse < ActiveRecord::Base
     belongs_to :user
     has_many :prizes
     has_many :horseshows, through: :prizes
-    validates :name, format: { with: /\A[a-zA-Z\s\d]+\z/,
-        message: "only allows letters or numbers" }
+    validates :name, format: { with: /\A[a-zA-Z\s\d]+\z/ }
 
     def point_total #sums the point_total attribute from all prizes belonging to a horse
         point_list = self.prizes.map{|prize| prize.point_total}

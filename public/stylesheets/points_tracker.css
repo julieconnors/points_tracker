@@ -7,6 +7,20 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.display {
+    z-index: 1;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 20px;
+    padding: 5px;
+    background-color: whitesmoke;
+}
+
+#error {
+    color: red;
+    font-size: 12px;
+}
+
 a:link { 
 	text-decoration: none; 
     color: mediumblue;
@@ -42,12 +56,6 @@ table {
     margin: auto;
 }
 
-li {
-    margin-left: 40%;
-    margin-right: 25%;
-    text-align: left;
-}
-
 #homepage {
     width: 45%;
     margin-bottom: 30%;
@@ -68,15 +76,6 @@ li {
     border-radius: 10px;
     color: maroon;
     font-size: 14px;
-}
-
-.display {
-    z-index: 1;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 20px;
-    padding: 5px;
-    background-color: whitesmoke;
 }
 
 button a:link {

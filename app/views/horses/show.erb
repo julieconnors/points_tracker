@@ -1,14 +1,9 @@
-<nav>
-    <button class="home"><a href="/"><strong>Home</strong></a></button>
-    <button class="logout"><a href="/logout"><strong>Logout</strong></a></button>
-</nav>
-
 <div class="display">
 
 <h1><%= @horse.name %></h1>
-
+<% if @horse.user_id == current_user.id%>
     <button><a href="/horses/<%= @horse.slug %>/edit">Edit Horse</a></button><br><br>
-
+<% end %>
 <strong>Point Total: </strong><%= @horse.point_total %><br>
 
 <h3>Points By Horse Show:</h3>
@@ -26,6 +21,7 @@
     </table>
 <br>
     
+<% if @horse.user_id == current_user.id%>
     <button><a href="/prizes">All Prizes</a></button>
     <button><a href="/prizes/new">Add Prize</a></button>
 
@@ -33,4 +29,5 @@
         <input type="hidden" id="hidden" name="_method" value="delete">
         <input type="submit" id="submit-delete" value="remove horse">   
     </form>
+<% end %>
 </div>

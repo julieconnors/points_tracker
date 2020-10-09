@@ -1,12 +1,12 @@
-<nav>
-    <button class="home"><a href="/"><strong>Home</strong></a></button>
-    <button class="logout"><a href="/logout"><strong>Logout</strong></a></button>
-</nav>
-
 <div class="display">
 
     <h1>Edit Horse</h1>
-
+    <div id="error">
+        <% if @error %>
+            <%= @error %>
+        <% end %>
+    </div>
+    <br>
     <form action="/horses/<%= @horse.slug %>" method="post">
     <input type="hidden" id="hidden" name="_method" value="patch">
     <label>Horse Name: </label>

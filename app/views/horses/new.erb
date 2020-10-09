@@ -1,12 +1,12 @@
-<nav>
-    <button class="home"><a href="/"><strong>Home</strong></a></button>
-    <button class="logout"><a href="/logout"><strong>Logout</strong></a></button>
-</nav>
-
 <div class="display">
 
     <h1>Add Horse</h1>
-
+    <div id="error">
+        <% if @error %>
+            <%= @error %>
+        <% end %>
+    </div>
+    <br>
     <form action="/horses" method="post">
     <label>Horse Name: </label>
     <input type="text" name="name" id="horse_name"><br>
