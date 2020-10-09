@@ -12,19 +12,11 @@ class HorsesController < ApplicationController
         erb :"/horses/new"
     end
 
-    get '/horses/invalid-input' do
-        erb :"/horses/invalid-input"
-    end
-    
-    get '/horses/duplicate' do
-        erb :"/horses/duplicate-error"
-    end
-
     get '/horses/:slug' do
         logged_out_redirection
         @horse = Horse.find_by_slug(params[:slug])
 
-            erb :"/horses/show"
+        erb :"/horses/show"
     end
 
     post '/horses' do
@@ -36,9 +28,8 @@ class HorsesController < ApplicationController
 
             redirect "/horses/#{horse.slug}"
         else
-            @error = "Horse name should contain only letters and numbers"
+            @error = "Either you already have a horse by that name or input is invalid."
             erb :"/horses/new"
-            #redirect "/horses/invalid-input"
         end
     end
 
@@ -47,11 +38,7 @@ class HorsesController < ApplicationController
             
         @horse = Horse.find_by_slug(params[:slug])
 
-        if @horse.user_id == current_user.id #if horse belongs to current user
-            erb :"/horses/edit" #render the edit page
-        else
-            erb :"/access-error"
-        end
+        erb :"/horses/edit" #render the edit page
     end
 
     patch '/horses/:slug' do
@@ -63,7 +50,7 @@ class HorsesController < ApplicationController
 
             redirect "/horses/#{@horse.slug}"
         else
-            @error = "Horse name should contain only letters and numbers"
+            @error = "Either you already have a horse by that name or input is invalid."
 
             erb :"/horses/edit"
         end
@@ -77,11 +64,5 @@ class HorsesController < ApplicationController
         horse.destroy
 
         redirect "/users/#{current_user.slug}"
-    end
-
-    helpers do
-        def horse_valid? #checks that name field is not an empty string and there is not already a horse by the name provided
-            params[:name] != "" && !Horse.find_by(name: params[:name].capitalize)
-        end  
     end
 end
