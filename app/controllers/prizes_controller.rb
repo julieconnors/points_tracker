@@ -61,6 +61,7 @@ class PrizesController < ApplicationController
     get '/prizes/:id/edit' do
         logged_out_redirection
         @prize = Prize.find_by(id: params[:id])
+        @errors = {}
 
         if @prize.user_id == current_user.id
 
@@ -75,55 +76,33 @@ class PrizesController < ApplicationController
         logged_out_redirection
         @prize = Prize.find_by(id: params[:id])
 
-        if valid_input?
-            horseshow = Horseshow.find_or_create_by(params[:horseshow]) #finds horseshow by id in params
+        if horse_valid?(params) && prize_valid?(params) && show_exist?(params)#if these conditions are met, a horse and horseshow can be found & prize can be created
+            horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
                 
-            horse = Horse.find_by(id: params[:horse]) #finds horse by horse_id in params
-
+            horse = Horse.find_by(id: params[:horse][:id]) #finds horse by horse_id in params
             if !Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id)#check if a prize already exists for that horse and horseshow
-                prize = Prize.update(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: current_user.id)
+                prize = Prize.update(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
         
                 redirect "/prizes/#{prize.id}"
-
             else
                 @error = "This is a duplicate prize. You can edit an existing prize or add a new prize."
 
                 erb :"/prizes/edit"
             end
-        elsif
-            #@errors = error_generator(params) #creates hash of error messages to use in view
+
+        elsif horse_valid?(params) && prize_valid?(params) && !show_exist?(params) && show_input_valid?(params) #if these conditions are met a horse can be found & a show and a prize van be created
+            horseshow = Horseshow.create(params[:horseshow])
+            
+            horse = Horse.find_by(id: params[:horse_id])
+            
+            prize.update(point_total: params[:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
+
+            redirect "/prizes/#{prize.id}"
+        elsif !horse_valid?(params) || !prize_valid?(params) || !show_input_valid?(params) #if we cannot find or create a horseshow, we cannot create a prize
+            @errors = error_generator(params) #creates hash of error messages to use in view
 
             erb :"/prizes/edit"
         end
-
-
-
-
-
-
-        # if params[:horseshow][:id] != nil && prize_valid?(params) #checks if params includes horseshow id (meaning the horseshow exists) and if prize input is valid
-        #     horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
-                
-        #     horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
-        #     if !Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id)#check if a prize already exists for that horse and horseshow
-        #         prize = Prize.update(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
-        
-        #         redirect "/prizes/#{prize.id}"
-        #     else
-        #         redirect "/prizes/duplicate"
-        #     end
-
-        # elsif params[:horseshow][:id] == nil && prize_valid?(params) && show_input_valid?(params)
-        #     horseshow = Horseshow.create(params[:horseshow])
-            
-        #     horse = Horse.find_by(id: params[:horse_id])
-            
-        #     prize.update(point_total: params[:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
-
-        #     redirect "/prizes/#{prize.id}"
-        # else
-        #     redirect "/prizes/invalid"
-        #end
     end
 
     delete '/prizes/:id' do
@@ -135,41 +114,42 @@ class PrizesController < ApplicationController
     end
 
     helpers do
-
-
-        def valid_input?
-            Horseshow.find_or_create_by(params[:horseshow]).valid? && Horse.find_by(id: params[:horse]).valid? && params[:point_total].to_i > 0
-        end
     
         def prize_valid?(params)
-            params[:horse_id] != nil && params[:point_total].to_i > 0
+             params[:point_total].to_i > 0
+        end
+
+        def horse_valid?(params)
+            params[:horse_id] != nil
+        end
+
+        def show_exist?(params)
+            !!params[:horseshow][:id]
         end
 
         def show_input_valid?(params)
-            Horseshow.find_or_create_by(params[:horseshow]).valid?
+            Horseshow.create(params[:horseshow]).valid?
             #params[:horseshow][:date] != "" && !params[:horseshow][:name].empty? && !params[:horseshow][:location].empty?
         end
 
         def error_generator(params)
             errors = {}
-            #case params
-            #when -> (p) { p[:point_total].to_i <= 0 }
-
+            if params[:horse_id] == nil
+                errors[:horse] = "Please select or add a horse" 
+            end
             if params[:point_total].to_i <= 0
                 errors[:points] = "Please enter integer point value."
             end
-            #when -> (p) { p[:horseshow][:name] == "" }
-
-            if params[:horseshow][:name] == ""
-                errors[:horseshow_name] = "Please enter a show name"
-            end
-            #when -> (p) { p[:horseshow][:location] == "" }
-            if params[:horseshow][:location] == ""
-                errors[:location] = "Please provide a location"
-            end
-            #when -> (p) { p[:horseshow][:date] == "" }
-            if params[:horseshow][:date] == ""
-                errors[:date] = "Please select a date"
+            if params[:horseshow][:id] == nil
+                if params[:horseshow][:name] == ""
+                    errors[:horseshow_name] = "Please enter a horse show name"
+                end
+                if params[:horseshow][:location] == ""
+                    errors[:location] = "Please provide a location"
+                end
+                if params[:horseshow][:date] == ""
+                    errors[:date] = "Please select a date"
+                end
             end
             errors
         end

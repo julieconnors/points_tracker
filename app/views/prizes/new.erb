@@ -4,8 +4,10 @@
 <form action="/prizes" method="post">
     <h3>Horse</h3>
         <% current_user.horses.each do |horse| %>
-            <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse[id]" value="<%= horse.id %>"><br>
+            <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id]" value="<%= horse.id %>"><br>
         <% end %>
+
+        <a href="/horses/new">Add Horse</a>
 
     <h3>Horse Show: </h3>
 
