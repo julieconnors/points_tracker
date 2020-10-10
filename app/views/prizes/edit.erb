@@ -4,7 +4,7 @@
 
     <h3>Horses:</h3><br>
       <% current_user.horses.each do |horse| %>
-        <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>" <%='checked' if @prize.horse_id == horse.id %>><br>
+        <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse[id]" value="<%= horse.id %>" <%='checked' if @prize.horse_id == horse.id %>><br>
       <% end %>
     <br>
 
@@ -17,13 +17,13 @@
   
   <h4>Add Show</h4>
     <label for="horseshow_name">Name:</label>
-      <input type="text" name="horseshow[name]" id="horseshow_name" value="<%= @prize.horseshow.name %>"> </br>
+      <input type="text" name="horseshow[name]" id="horseshow_name"></br>
 
     <label for="horseshow_location">Location: </label>
-      <input type="text" name="horseshow[location]" id="horseshow_location" value="<%= @prize.horseshow.location %>"> </br>
+      <input type="text" name="horseshow[location]" id="horseshow_location"></br>
 
     <label for="horseshow_date">Date: </label>
-      <input type="date" name="horseshow[date]" id="horseshow_date" value="<%= @prize.horseshow.date %>"> </br>
+      <input type="date" name="horseshow[date]" id="horseshow_date"></br>
     <br>
   
   <h3>Point Total:</h3>
