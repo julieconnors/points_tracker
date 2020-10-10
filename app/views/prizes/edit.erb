@@ -1,4 +1,9 @@
 <div class="display"><h1>Edit Prize</h1>
+  <% if !!@duplicate_error %>
+    <div id="error">
+      <%= @error %>
+    </div>
+  <% end %>
   <form action="/prizes/<%= @prize.id %>" method="post">
     <input type="hidden" id="hidden" name="_method" value="patch">
     <h3>Horses:</h3><br>
