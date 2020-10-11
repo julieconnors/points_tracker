@@ -1,7 +1,10 @@
 <div class="display"><h1>Edit Prize</h1>
+<% if @errors.nil? %>
+<% @errors = {} %>
+<% end %>
   <% if !!@duplicate_error %>
     <div id="error">
-      <%= @error %>
+      <%= @duplicate_error %>
     </div>
   <% end %>
   <form action="/prizes/<%= @prize.id %>" method="post">
@@ -13,7 +16,7 @@
         </div>
       <% end %>
       <% current_user.horses.each do |horse| %>
-        <%= horse.name %><input id="<%= horse.name %>" type="radio" name="horse_id" value="1" <%='checked' if @prize.horse_id == horse.id %>><br>
+        <%= horse.name %><input id="<%= horse.name %>" type="radio" name="horse_id" value="<%= horse.id %>" <%='checked' if @prize.horse_id == horse.id %>><br>
       <% end %>
     <br>
 
@@ -22,7 +25,7 @@
   <h3>Horse Show:</h3>
 
       <% sort_horseshows_from_current_user.each do |show| %>
-          <input id="<%= show.name %>" type="checkbox" name="horseshow[id]" value="1" <%='checked' if @prize.horseshow_id == show.id %>><%= show.name %> - <%= show.format_date %><br>
+          <input id="<%= show.name %>" type="checkbox" name="horseshow_id" value="<%= show.id %>" <%='checked' if @prize.horseshow_id == show.id %>><%= show.name %> - <%= show.format_date %><br>
       <% end %>
     <br>
   
@@ -62,7 +65,7 @@
       </div>
       <% end %>
 
-    <input type="text" name="point_total" id="point_total" value="<%= @prize.point_total %>"><br>
+    <input type="text" name="prize[point_total]" id="point_total" value="<%= @prize.point_total %>"><br>
   <input type="submit" id="submit" value="Update">
   </form>
 </div>
