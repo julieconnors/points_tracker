@@ -13,16 +13,16 @@
         </div>
       <% end %>
       <% current_user.horses.each do |horse| %>
-        <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>" <%='checked' if @prize.horse_id == horse.id %>><br>
+        <%= horse.name %><input id="<%= horse.name %>" type="radio" name="horse_id" value="1" <%='checked' if @prize.horse_id == horse.id %>><br>
       <% end %>
     <br>
 
-    <a href="/horses/new">Add Horse</a>
+  <button><a href="/horses/new">Add Horse</a></button>
 
   <h3>Horse Show:</h3>
 
       <% sort_horseshows_from_current_user.each do |show| %>
-          <input id="<%= show.name %>" type="checkbox" name="horseshow[id]" value="<%= show.id %>" <%='checked' if @prize.horseshow_id == show.id %>><%= show.name %> - <%= show.format_date %><br>
+          <input id="<%= show.name %>" type="checkbox" name="horseshow[id]" value="1" <%='checked' if @prize.horseshow_id == show.id %>><%= show.name %> - <%= show.format_date %><br>
       <% end %>
     <br>
   

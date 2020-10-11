@@ -14,26 +14,25 @@ class PrizesController < ApplicationController
         erb :"/prizes/new"        
     end
 
-    get '/prizes/invalid' do
-        erb :"/prizes/invalid-input"
-    end
+    # get '/prizes/invalid' do
+    #     erb :"/prizes/invalid-input"
+    # end
 
-    get '/prizes/duplicate' do
-        erb :"/prizes/duplicate"
-    end
+    # get '/prizes/duplicate' do
+    #     erb :"/prizes/duplicate"
+    # end
 
     post '/prizes' do
-        binding.pry
         logged_out_redirection #is this necessary???
         
-        if horse_valid?(params) && prize_valid?(params) && show_exist?(params)#if these conditions are met, a horse and horseshow can be found & prize can be created
-            horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
+        if horse_valid?(params) && prize_valid?(params) && show_exist?(params) && !new_show_input_entered?(params)#if these conditions are met, a horse and horseshow can be found & prize can be created
+            horseshow = Horseshow.find_by(id: params[:horseshow_id]) #finds horseshow by id in params
                 
-            horse = Horse.find_by(id: params[:horse][:id]) #finds horse by horse_id in params
-            if !Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id)#check if a prize already exists for that horse and horseshow
-                @prize = Prize.update(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
+            horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
+            if Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id).empty?#check if a prize already exists for that horse and horseshow
+                @prize = Prize.create(point_total: params[:prize][:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: current_user.id)
         
-                redirect "/prizes/#{prize.id}"
+                redirect "/prizes/#{@prize.id}"
             else
                 @duplicate_error = "This is a duplicate prize. You can edit an existing prize or add a new prize."
 
@@ -41,43 +40,23 @@ class PrizesController < ApplicationController
             end
 
         elsif horse_valid?(params) && prize_valid?(params) && !show_exist?(params) && show_input_valid?(params)#if these conditions are met a horse can be found & a show and a prize van be created
-            #binding.pry
             horseshow = Horseshow.create(params[:horseshow])
             
             horse = Horse.find_by(id: params[:horse_id])
             
-            @prize.create(point_total: params[:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
+            @prize.create(point_total: params[:prize][:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
 
             redirect "/prizes/#{@prize.id}"
+        elsif horse_valid?(params) && prize_valid?(params) && show_exist?(params) && new_show_input_entered?(params) 
+            @duplicate_error = "Please either select an existing horse show or add a new horse show."
+
+            erb :"/prizes/new"
+
         elsif !horse_valid?(params) || !prize_valid?(params) || !show_input_valid?(params) #if we cannot find or create a horseshow, we cannot create a prize
             @errors = error_generator(params) #creates hash of error messages to use in view
 
             erb :"/prizes/new"
-        end
-        
-        
-        # if params[:horseshow][:id] != nil && prize_valid?(params) #checks if params includes horseshow id (meaning the horseshow exists) and if prize input is valid
-        #     horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
-                
-        #     horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
-        #     if !Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id)#check if a prize already exists for that horse and horseshow
-        #         prize = Prize.create(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
-        
-        #         redirect "/users/#{current_user.slug}"
-        #     else
-        #         redirect "/prizes/duplicate"
-        #     end
-        # elsif params[:horseshow][:id] == nil && prize_valid?(params) && show_input_valid?(params) #checks if horse show does not exist, if prize input is valid and if horseshow input is valid
-        #     horseshow = Horseshow.create(params[:horseshow]) #creates horseshow by params
-            
-        #     horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
-            
-        #     prize = Prize.create(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
-
-        #     redirect "/users/#{current_user.slug}"
-        # else
-        #     redirect "/prizes/invalid"
-        # end    
+        end   
     end
 
     get '/prizes/:id' do
@@ -106,18 +85,18 @@ class PrizesController < ApplicationController
     end
 
     patch '/prizes/:id' do
-        #binding.pry
+        binding.pry
         logged_out_redirection
         @prize = Prize.find_by(id: params[:id])
 
         if horse_valid?(params) && prize_valid?(params) && show_exist?(params)#if these conditions are met, a horse and horseshow can be found & prize can be created
-            horseshow = Horseshow.find_by(id: params[:horseshow][:id]) #finds horseshow by id in params
+            horseshow = Horseshow.find_by(id: params[:horseshow_id]) #finds horseshow by id in params
                 
-            horse = Horse.find_by(id: params[:horse][:id]) #finds horse by horse_id in params
-            if !Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id)#check if a prize already exists for that horse and horseshow
-                @prize = Prize.update(point_total: params[:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: horse.user_id)
+            horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
+            if Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id).empty?#check if a prize already exists for that horse and horseshow
+                @prize = Prize.update(point_total: params[:prize][:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: current_user.id)
         
-                redirect "/prizes/#{prize.id}"
+                redirect "/prizes/#{@prize.id}"
             else
                 @duplicate_error = "This is a duplicate prize. You can edit an existing prize or add a new prize."
 
@@ -129,7 +108,7 @@ class PrizesController < ApplicationController
             
             horse = Horse.find_by(id: params[:horse_id])
             
-            @prize.update(point_total: params[:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
+            @prize.update(point_total: params[:prize][:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
 
             redirect "/prizes/#{@prize.id}"
         elsif !horse_valid?(params) || !prize_valid?(params) || !show_input_valid?(params) #if we cannot find or create a horseshow, we cannot create a prize
@@ -150,7 +129,7 @@ class PrizesController < ApplicationController
     helpers do
     
         def prize_valid?(params)
-             params[:point_total].to_i > 0
+             Prize.create(params[:prize]).valid?
         end
 
         def horse_valid?(params)
@@ -158,7 +137,11 @@ class PrizesController < ApplicationController
         end
 
         def show_exist?(params)
-            !!params[:horseshow][:id]
+            !!params[:horseshow_id]
+        end
+
+        def new_show_input_entered?(params)
+            !params[:horseshow].values.all?{|value| value == ""}
         end
 
         def show_input_valid?(params)

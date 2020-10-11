@@ -5,3 +5,7 @@
 
 - add radio input instead of check mark
 
+- I think I can remove active record validation from prize class
+
+-check edit prize check for existing prize - may need to add more conditions
+

@@ -1,11 +1,11 @@
 <div class="display">
+<% if @errors.nil? %>
+<% @errors = {} %>
+<% end %>
 <h1>Add Prize</h1>
     <% if !!@duplicate_error %>
-        <div id="error">
-            <%= @error %>
-        </div>
+        <p style="color: red; font-size: 12px;"><%= @duplicate_error %></p>
     <% end %>
-
 <form action="/prizes" method="post">
     <h3>Horse</h3>
     <% if !!@errors[:horse] %>
@@ -14,16 +14,21 @@
         </div>
     <% end %>
         <% current_user.horses.each do |horse| %>
-            <%= horse.name %><input id="<%= horse.name %>" type="checkbox" name="horse_id" value="<%= horse.id %>"><br>
+            <%= horse.name %><input id="<%= horse.name %>" type="radio" name="horse_id" value="<%= horse.id %>"><br>
         <% end %>
-
-        <a href="/horses/new">Add Horse</a>
+        <br>
+    <button><a href="/horses/new">Add Horse</a></button>
 
     <h3>Horse Show: </h3>
-
+        <table>
         <% sort_horseshows_from_current_user.each do |show| %>
-            <input id="<%= show.name %>" type="checkbox" name="horseshow[id]" value="<%= show.id %>"><%= show.name %> - <%= show.format_date %><br>
+        <tr>
+            <td><%= show.format_date %></td>
+            <td><%= show.name %></td>
+            <td><input id="<%= show.name %>" type="radio" name="horseshow_id" value="<%= show.id %>"></td>
+        </tr>
         <% end %>
+        </table>
     <br>
     <h4>Add Show</h4>
     
@@ -41,7 +46,7 @@
             <%= @errors[:date] %>
         </div>
     <% end %>
-        <input type="date" name="horseshow[date]" id="horseshow_date" placeholder="mm/dd/yy"><br>
+        <input type="date" name="horseshow[date]" id="horseshow_date"><br>
     
     <label>Location: </label><br>
     <% if !!@errors[:location] %>
@@ -57,7 +62,7 @@
             <%= @errors[:points] %>
         </div>
     <% end %>
-        <input type="text" name="point_total" id="points_value"><br>
+        <input type="text" name="prize[point_total]" id="point_total"><br>
     
     <input type="submit" id="submit" value="Add Prize">
 </form>
