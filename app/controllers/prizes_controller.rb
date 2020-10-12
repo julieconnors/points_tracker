@@ -38,6 +38,8 @@ class PrizesController < ApplicationController
 
             redirect "/prizes/#{@prize.id}"
         elsif horse_valid?(params) && prize_valid?(params) && show_exist?(params) && new_show_input_entered?(params)#checks if existing horse show and new horse show input are added 
+            @horse = Horse.find_by(id: params[:horse_id])
+            @horseshow = Horseshow.find_by(id: params[:horseshow_id])
             @errors[:duplicate_show_input] = "Please either select an existing horse show or add a new horse show."
 
             erb :"/prizes/new"

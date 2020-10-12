@@ -68,12 +68,18 @@ class UsersController < ApplicationController
             errors = {}
             if params[:name] == ""
                 errors[:name] = "Please enter a name." 
+            else
+                @name = params[:name]
             end
             if params[:username] == ""
                 errors[:username] = "Please enter a username."
+            else
+                @username = params[:username]
             end
             if params[:password] == ""
                 errors[:password] = "Please enter a password."
+            else
+                @password = params[:password]
             end
             errors
         end

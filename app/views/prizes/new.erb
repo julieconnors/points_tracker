@@ -12,7 +12,7 @@
         <p style="color: red; font-size: 12px;"><%= @errors[:horse] %></a>
     <% end %>
         <% current_user.horses.each do |horse| %>
-            <%= horse.name %><input id="<%= horse.name %>" type="radio" name="horse_id" value="<%= horse.id %>"><br>
+            <%= horse.name %><input id="<%= horse.name %>" type="radio" name="horse_id" value="<%= horse.name %>"><br>
         <% end %>
         <br>
     <button><a href="/horses/new">Add Horse</a></button>
