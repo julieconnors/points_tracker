@@ -1,10 +1,20 @@
+<div class="display">
 <h1>Log In:</h1>
-
-<form action="/users" method="post">
+    <% if @errors.nil? %>
+        <% @errors = {} %>
+    <% end %>
+<form action="/login" method="post">
+    <% if !!@errors[:login] %>
+        <p style="color: red; font-size: 12px;"><%= @errors[:login] %></p>
+    <% end %>
     <label for="username">Username: </label>
-        <input type="text" name="username"><br>
+        <input type="text" name="username" <% if !!@user %> value="<%= @user.username %>" <% end %>><br>
+    <% if !!@errors[:wrong_password] %>
+        <p style="color: red; font-size: 12px;"><%= @errors[:wrong_password] %></p>
+    <% end %>
     <label for="password">Password: </label>
         <input type="password" name="password"><br>
 
     <input type="submit" id="submit" value="Log In">
 </form>
+</div>

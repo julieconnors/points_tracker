@@ -1,7 +1,8 @@
 <div class="display">
-<% if @errors.nil? %>
-<% @errors = {} %>
-<% end %>
+  <% if @errors.nil? %>
+    <% @errors = {} %>
+  <% end %>
+  
   <h1>Edit Prize</h1>
   <% if !!@errors[:duplicate_error] %>
       <p style="color: red; font-size: 12px;"><%= @errors[:duplicate_error] %></p>

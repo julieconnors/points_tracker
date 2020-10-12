@@ -1,5 +1,7 @@
 class PrizesController < ApplicationController
     
+    @errors = {}
+
     get '/prizes' do
         logged_out_redirection
         

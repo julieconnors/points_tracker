@@ -1,9 +1,5 @@
 class UsersController < ApplicationController
-
-    get '/login' do
-        erb :"/users/login"
-    end
-
+        
     get '/users/:slug' do
         if logged_in?
             @user = User.find_by_slug(params[:slug])
@@ -14,49 +10,72 @@ class UsersController < ApplicationController
 		end    
     end
 
-    post '/users' do
-        #do I need login validation on post routes??
-        @user = User.find_by(username: params[:username])
+    get '/login' do
+        erb :"/users/login"
+    end
 
-        if @user && @user.authenticate(params[:password])
-            session[:user_id] = @user.id
+    post '/login' do
+        @errors = {}
+        if !!User.find_by(username: params[:username]) #checks if User can be found with params
+            user = User.find_by(username: params[:username]) #finds user
+            if user.authenticate(params[:password]) #checks if user can be authenticated with password provided
+                session[:user_id] = user.id #logs user in by assigning session user_id
 
-            redirect to "/users/#{@user.slug}"
+                redirect "/users/#{user.slug}"
+            else
+                @errors[:wrong_password] = "The password entered doesn't match our records."
+
+                erb :"/users/login"
+            end
         else
-            redirect "/login_error"
+            @errors[:login] = "We were unable to find an account with the username provided."
+            
+            erb :"/users/login"
         end
     end
     
     get '/signup' do
-        
         erb :"/users/signup"
     end
 
     post '/signup' do
-        if !User.find_by(username: params[:username]) #checks if there is a user by this username
-            user = User.new(params) #instantiates new user
-            if user.save #this validates params input, if user can be persisted, params includes username, password, and name
-                session[:user_id] = user.id #logs user in by assign session user_id to new user
-                redirect to "/users/#{user.slug}"
-		    else
-			    redirect "/signup_error"
+        if !User.find_by(username: params[:username]) #checks if there is already a user by this username
+            user = User.new(params) #instantiates new user with params
+            if user.save #this validates params input, if user can be persisted that means params includes username, password, and name
+                session[:user_id] = user.id #logs new user in by assigning session user_id to new user
+                
+                redirect "/users/#{user.slug}"
+            else
+                @errors = error_generator(params) #creates a hash of error messages to be displayed in view 
+                
+                erb :"/users/signup"
             end
         else
-            redirect "/signup_error"
+            @errors[:signup] = "The username you selected already exists."
+
+            erb :"/users/signup"
         end
     end
 
     get '/logout' do
         session.clear
 
-        redirect to '/'
+        redirect '/'
     end
 
-    get '/login_error' do
-        erb :"/users/login_error"
-    end
-
-    get '/signup_error' do
-        erb :"/users/signup_error"
+    helpers do
+        def error_generator(params)
+            errors = {}
+            if params[:name] == ""
+                errors[:name] = "Please enter a name." 
+            end
+            if params[:username] == ""
+                errors[:username] = "Please enter a username."
+            end
+            if params[:password] == ""
+                errors[:password] = "Please enter a password."
+            end
+            errors
+        end
     end
 end
