@@ -21,7 +21,6 @@ class HorsesController < ApplicationController
 
     post '/horses' do
         logged_out_redirection #do I need login validation on post routes??
-        
         horse = Horse.new(name: params[:name]) #instantiates new horse
         horse.user_id = current_user.id #assigns horse user_id to that of current_user
         if horse.save #saves horse with user_id set
@@ -35,7 +34,6 @@ class HorsesController < ApplicationController
 
     get '/horses/:slug/edit' do
         logged_out_redirection
-            
         @horse = Horse.find_by_slug(params[:slug])
 
         erb :"/horses/edit" #render the edit page
@@ -43,9 +41,7 @@ class HorsesController < ApplicationController
 
     patch '/horses/:slug' do
         logged_out_redirection # is this necessary
-
         @horse = Horse.find_by_slug(params[:slug])
-
         if @horse.update(name: params[:name]) #update horse with params data
 
             redirect "/horses/#{@horse.slug}"
@@ -58,9 +54,7 @@ class HorsesController < ApplicationController
 
     delete '/horses/:id' do
         logged_out_redirection #is this necessary??
-        
         horse = Horse.find_by(id: params[:id]) #delete form sends id value through params
-        
         horse.destroy
 
         redirect "/users/#{current_user.slug}"

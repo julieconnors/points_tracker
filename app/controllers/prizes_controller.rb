@@ -8,16 +8,13 @@ class PrizesController < ApplicationController
     
     get '/prizes/new' do
         logged_out_redirection
-        @errors = {}
-        @duplicate_error = nil
         
         erb :"/prizes/new"        
     end
 
     post '/prizes' do
         logged_out_redirection #is this necessary???
-        
-        if horse_valid?(params) && prize_valid?(params) && show_exist?(params) && !new_show_input_entered?(params)#if these conditions are met, a horse and horseshow can be found & prize can be created
+        if horse_valid?(params) && prize_valid?(params) && show_exist?(params) && !new_show_input_entered?(params)#if these conditions are met, a horse and horseshow can be found & prize can be created and there is no new horse show input
             horseshow = Horseshow.find_by(id: params[:horseshow_id]) #finds horseshow by id in params
                 
             horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
@@ -26,11 +23,10 @@ class PrizesController < ApplicationController
         
                 redirect "/prizes/#{@prize.id}"
             else
-                @duplicate_error = "This is a duplicate prize. You can edit an existing prize or add a new prize."
+                @errors[:duplicate_prize] = "This is a duplicate prize. You can edit an existing prize or add a new prize."
 
                 erb :"/prizes/new"
             end
-
         elsif horse_valid?(params) && prize_valid?(params) && !show_exist?(params) && show_input_valid?(params)#if these conditions are met a horse can be found & a show and a prize van be created
             horseshow = Horseshow.create(params[:horseshow])
             
@@ -39,8 +35,8 @@ class PrizesController < ApplicationController
             @prize.create(point_total: params[:prize][:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
 
             redirect "/prizes/#{@prize.id}"
-        elsif horse_valid?(params) && prize_valid?(params) && show_exist?(params) && new_show_input_entered?(params) 
-            @duplicate_error = "Please either select an existing horse show or add a new horse show."
+        elsif horse_valid?(params) && prize_valid?(params) && show_exist?(params) && new_show_input_entered?(params)#checks if existing horse show and new horse show input are added 
+            @errors[:duplicate_show_input] = "Please either select an existing horse show or add a new horse show."
 
             erb :"/prizes/new"
 
@@ -66,7 +62,6 @@ class PrizesController < ApplicationController
     get '/prizes/:id/edit' do
         logged_out_redirection
         @prize = Prize.find_by(id: params[:id])
-        @duplicate_error = nil
         if @prize.user_id == current_user.id
 
             erb :"/prizes/edit"
@@ -89,7 +84,7 @@ class PrizesController < ApplicationController
         
                 redirect "/prizes/#{@prize.id}"
             else
-                @duplicate_error = "This is a duplicate prize. You can edit an existing prize or add a new prize."
+                @errors[:duplicate_prize] = "This is a duplicate prize. You can edit an existing prize or add a new prize."
 
                 erb :"/prizes/edit"
             end
@@ -103,7 +98,7 @@ class PrizesController < ApplicationController
 
             redirect "/prizes/#{@prize.id}"
         elsif horse_valid?(params) && prize_valid?(params) && show_exist?(params) && new_show_input_entered?(params) 
-            @duplicate_error = "Please either select an existing horse show or add a new horse show."
+            @errors[:duplicate_show_input] = "Please either select an existing horse show or add a new horse show."
 
             erb :"/prizes/edit"
 
@@ -148,7 +143,7 @@ class PrizesController < ApplicationController
             if params[:horse_id] == nil
                 errors[:horse] = "Please select or add a horse" 
             end
-            if params[:prize][:point_total].to_i <= 0
+            if !!prize_valid? #params[:prize][:point_total].to_i <= 0
                 errors[:points] = "Please enter integer point value."
             end
             if params[:horseshow_id] == nil

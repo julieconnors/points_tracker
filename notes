@@ -1,11 +1,6 @@
-- check routes/ conventions for RESTful routes
 - Module for slug methods
 
-- check validations
+- add error messages to user controller
 
-- add radio input instead of check mark
-
-- I think I can remove active record validation from prize class
-
--check edit prize check for existing prize - may need to add more conditions
+- add notes to controllers
 
