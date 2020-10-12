@@ -1,5 +1,6 @@
 <div class="display">
-    <br>
+    <% if @prize.user_id != current_user.id %><h3>You do not have access to this listing.</h3>
+    <% else %>
     <% horse = Horse.find_by(id: @prize.horse_id) %>
     
     <strong>Horse: </strong><a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br><br>
@@ -17,4 +18,5 @@
         <input type="hidden" id="hidden" name="_method" value="delete">
         <input type="submit" id="submit-delete" value="remove">   
     </form>
+    <% end %>
 </div>

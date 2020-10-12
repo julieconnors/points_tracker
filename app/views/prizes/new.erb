@@ -1,16 +1,14 @@
 <div class="display">
-<% if @errors.nil? %>
-<% @errors = {} %>
-<% end %>
+<% if @errors.nil? %><% @errors = {} %><% end %>
+
 <h1>Add Prize</h1>
-  <% if !!@errors[:duplicate_prize] %>
-  <p style="color: red; font-size: 12px;"><%= @errors[:duplicate_prize] %></p>
-  <% end %>
+  <% if !!@errors[:duplicate_prize] %><p style="color: red; font-size: 12px;"><%= @errors[:duplicate_prize] %></p><% end %>
+
 <form action="/prizes" method="post">
+    
     <h3>Horse</h3>
-    <% if !!@errors[:horse] %>
-        <p style="color: red; font-size: 12px;"><%= @errors[:horse] %></a>
-    <% end %>
+    <% if !!@errors[:horse] %><p style="color: red; font-size: 12px;"><%= @errors[:horse] %></a><% end %>
+
         <% current_user.horses.each do |horse| %>
             <%= horse.name %><input id="<%= horse.name %>" type="radio" name="horse_id" value="<%= horse.name %>"><br>
         <% end %>
@@ -18,11 +16,10 @@
     <button><a href="/horses/new">Add Horse</a></button>
 
     <h3>Horse Show: </h3>
-    <% if !!@errors[:duplicate_show_input] %>
-        <p style="color: red; font-size: 12px;"><%= @errors[:duplicate_show_input] %></p>
-    <% end %>
+    <% if !!@errors[:duplicate_show_input] %><p style="color: red; font-size: 12px;"><%= @errors[:duplicate_show_input] %></p><% end %>
+        
         <table>
-        <% sort_horseshows_from_current_user.each do |show| %>
+        <% Horseshow.all.each do |show| %> 
         <tr>
             <td><%= show.format_date %></td>
             <td><%= show.name %></td>
@@ -34,27 +31,19 @@
     <h4>Add Show</h4>
     
     <label>Name: </label><br>
-    <% if !!@errors[:horseshow_name] %>
-        <p style="color: red; font-size: 12px;"><%= @errors[:horseshow_name] %></p>
-    <% end %>
+    <% if !!@errors[:horseshow_name] %><p style="color: red; font-size: 12px;"><%= @errors[:horseshow_name] %></p><% end %>
         <input type="text" name="horseshow[name]" id="horseshow_name"><br>
     
     <label>Date: </label><br>
-    <% if !!@errors[:date] %>
-        <p style="color: red; font-size: 12px;"><%= @errors[:date] %></p>
-    <% end %>
+    <% if !!@errors[:date] %><p style="color: red; font-size: 12px;"><%= @errors[:date] %></p><% end %>
         <input type="date" name="horseshow[date]" id="horseshow_date"><br>
     
     <label>Location: </label><br>
-    <% if !!@errors[:location] %>
-        <p style="color: red; font-size: 12px;"><%= @errors[:location] %></p>
-    <% end %>
+    <% if !!@errors[:location] %><p style="color: red; font-size: 12px;"><%= @errors[:location] %></p><% end %>
         <input type="text" name="horseshow[location]" id="horseshow_location"><br>
 
     <h3>Add Points: </h3>
-    <% if !!@errors[:points] %>
-        <p style="color: red; font-size: 12px;"><%= @errors[:points] %></p>
-    <% end %>
+    <% if !!@errors[:points] %><p style="color: red; font-size: 12px;"><%= @errors[:points] %></p><% end %>
         <input type="text" name="prize[point_total]" id="point_total"><br>
     
     <input type="submit" id="submit" value="Add Prize">

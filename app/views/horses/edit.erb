@@ -1,10 +1,11 @@
 <div class="display">
-    <% if current_user.id == @horse.user_id %>
+    <% if current_user.id != @horse.user_id %>    
+    <h3>You do not have access to edit this listing.</h3>
+    <% else %>
+
     <h1>Edit Horse</h1>
     <div id="error">
-        <% if @error %>
-            <%= @error %>
-        <% end %>
+        <% if @error %><%= @error %><% end %>
     </div>
     <br>
     <form action="/horses/<%= @horse.slug %>" method="post">
@@ -15,7 +16,5 @@
     <input type="submit" id="submit" value="Update">
     </form>
 
-    <% else %>
-    <h3>You do not have access to edit this listing.</h3>
     <% end %>
 </div>

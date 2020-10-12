@@ -55,23 +55,14 @@ class PrizesController < ApplicationController
         logged_out_redirection
         @prize = Prize.find_by(id: params[:id])
         
-        if @prize.user_id == current_user.id
-
             erb :"/prizes/show"
-        else
-            erb :"/access-error"
-        end
     end
 
     get '/prizes/:id/edit' do
         logged_out_redirection
         @prize = Prize.find_by(id: params[:id])
-        if @prize.user_id == current_user.id
 
             erb :"/prizes/edit"
-        else
-            erb :"/access-error"
-        end
     end
 
     patch '/prizes/:id' do

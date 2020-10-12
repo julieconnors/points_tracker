@@ -2,9 +2,7 @@
 
     <h1>Add Horse</h1>
     <div id="error">
-        <% if @error %>
-            <%= @error %>
-        <% end %>
+        <% if @error %><%= @error %><% end %>
     </div>
     <br>
     <form action="/horses" method="post">

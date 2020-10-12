@@ -18,10 +18,6 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get "/access-error" do
-    erb :"/access-error"
-  end
-
   helpers do 
     def logged_in? #checks if a user is logged in
       !!session[:user_id]

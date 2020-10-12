@@ -4,7 +4,7 @@
     <th>Date</th>
     <th>Name</th>
     <th>Location</th>
-        <% sort_horseshows_from_current_user.each do |show| %>
+        <% Horseshow.all.each do |show| %>
             <tr>
             <td><%= show.format_date %></td> 
             <td><a href="/horseshows/<%=show.id %>"><%= show.name%></a></td>
