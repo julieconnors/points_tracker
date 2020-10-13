@@ -2,10 +2,6 @@
 
 - show valid input in redirected prize forms
 
-- error message instead of access error page?
-
 - add notes to controllers
 
-- how do I want to handle horseshows?? maybe horseshows should have a user id
-
--update method to sort all horseshows by date instead of users horseshows
+- update method to sort all horseshows by date instead of users horseshows
