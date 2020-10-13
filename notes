@@ -1,7 +1,4 @@
-- Module for slug methods
+- Module for slug methods?
 
-- show valid input in redirected prize forms
 
-- add notes to controllers
-
-- update method to sort all horseshows by date instead of users horseshows
+- fix creating multiple horse shows

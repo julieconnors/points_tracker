@@ -20,7 +20,7 @@
     <% if !!@errors[:horseshow] %><p style="color: red; font-size: 12px;"><%= @errors[:horseshow] %></p><% end %>
         
         <table>
-        <% Horseshow.all.each do |show| %> 
+        <% Horseshow.sort_by_date.each do |show| %> 
         <tr>
             <td><%= show.format_date %></td>
             <td><%= show.name %></td>

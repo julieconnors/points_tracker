@@ -26,11 +26,11 @@
   <h3>Horse Show:</h3>
   <% if !!@errors[:horseshow]%><p style="color: red; font-size: 12px;"><%= @errors[:horseshow] %></p><% end %>
     <table>
-      <% Horseshow.all.each do |show| %>
+      <% Horseshow.sort_by_date.uniq.each do |show| %>
         <tr>
           <td><%= show.format_date %></td>
           <td><%= show.name %></td>
-          <td><input id="<%= show.name %>" type="checkbox" name="horseshow_id" value="<%= show.id %>" 
+          <td><input id="<%= show.name %>" type="radio" name="horseshow_id" value="<%= show.id %>" 
             <% if !@errors[:horseshow] %>
               <% if !!@valid_input[:horseshow_id] %><%='checked' if @valid_input[:horseshow_id] == show.id %>
               <% else %><%='checked' if @prize.horseshow_id == show.id %><% end %>>

@@ -10,4 +10,8 @@ class Horseshow < ActiveRecord::Base
     def sort_by_points
         self.prizes.order(point_total: :desc)
     end
+
+    def self.sort_by_date
+        self.order(:date)
+    end
 end

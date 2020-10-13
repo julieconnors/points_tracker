@@ -23,7 +23,7 @@ class PrizesController < ApplicationController
             horse = Horse.find_by(id: params[:horse_id]) #finds horse by horse_id in params
             if Prize.where("horse_id = ? AND horseshow_id =?", horse.id, horseshow.id).empty?#check if a prize already exists for that horse and horseshow
                 @prize = Prize.create(point_total: params[:prize][:point_total], horse_id: horse.id, horseshow_id: horseshow.id, user_id: current_user.id)
-        
+                
                 redirect "/prizes/#{@prize.id}"
             else
                 @errors[:duplicate_prize] = "This is a duplicate prize. You can edit an existing prize or add a new prize."
@@ -35,14 +35,14 @@ class PrizesController < ApplicationController
             
             horse = Horse.find_by(id: params[:horse_id])
             
-            @prize.create(point_total: params[:prize][:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
+            @prize = Prize.create(point_total: params[:prize][:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
 
             redirect "/prizes/#{@prize.id}"
+        
         else #without conditions to create a prize this runs the error generator and valid input methods to show user what input needs to be corrected
-            @valid_input = valid_input_generator(params)
+            @errors = error_generator(params) #creates hash of error messages to use in view
+            @valid_input = valid_input_generator(params) #creates hash of valid inputs to be shown in view
 
-            @errors = error_generator(params)
-            
             erb :"/prizes/new"
         end   
     end
@@ -88,9 +88,9 @@ class PrizesController < ApplicationController
             @prize.update(point_total: params[:prize][:point_total], horseshow_id: horseshow.id, horse_id: horse.id, user_id: current_user.id)
 
             redirect "/prizes/#{@prize.id}"
-        else #if we cannot find or create a horseshow, we cannot create a prize
+        else #without conditions to create a prize this runs the error generator and valid input methods to show user what input needs to be corrected
             @errors = error_generator(params) #creates hash of error messages to use in view
-            @valid_input = valid_input_generator(params)
+            @valid_input = valid_input_generator(params) #creates hash of valid inputs to be shown in view
 
             erb :"/prizes/edit"
         end
@@ -106,7 +106,7 @@ class PrizesController < ApplicationController
 
     helpers do
         def prize_valid?(params)
-             Prize.create(params[:prize]).valid?
+             params[:prize][:point_total].to_i > 0
         end
 
         def horse_valid?(params)
@@ -122,7 +122,7 @@ class PrizesController < ApplicationController
         end
 
         def show_input_valid?(params)
-            Horseshow.create(params[:horseshow]).valid?
+            params[:horseshow].values.all?{|value| value != ""}
         end
 
         def error_generator(params)
@@ -130,7 +130,7 @@ class PrizesController < ApplicationController
             if params[:horse_id] == nil
                 errors[:horse] = "Please select or add a horse."
             end
-            if !prize_valid?(params) #params[:prize][:point_total].to_i <= 0
+            if !prize_valid?(params)
                 errors[:points] = "Please enter integer point value."
             end
             if params[:horseshow_id] == nil && !new_show_input_entered?(params)
@@ -156,7 +156,7 @@ class PrizesController < ApplicationController
             if params[:horse_id] != nil
                 valid_input[:horse_id] = params[:horse_id].to_i
             end
-            if prize_valid?(params) #params[:prize][:point_total].to_i <= 0
+            if prize_valid?(params)
                 valid_input[:points] = params[:prize][:point_total]
             end
             if params[:horseshow_id] == nil && params[:horseshow] != nil
@@ -169,7 +169,7 @@ class PrizesController < ApplicationController
                 if params[:horseshow][:date] != ""
                     valid_input[:date] = params[:horseshow][:date]
                 end
-            elsif params[:horseshow_id] != nil && params[:horseshow] == nil
+            elsif params[:horseshow_id] != nil && !new_show_input_entered?(params)
                 valid_input[:horseshow_id] = params[:horseshow_id].to_i
             end
             valid_input
