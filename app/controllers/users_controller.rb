@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
     post '/login' do
         @errors = {}
-        if !!User.find_by(username: params[:username]) #checks if User can be found with params
+        if User.exists?(username: params[:username]) #checks if User can be found with params
             user = User.find_by(username: params[:username]) #finds user
             if user.authenticate(params[:password]) #checks if user can be authenticated with password provided
                 session[:user_id] = user.id #logs user in by assigning session user_id
@@ -38,6 +38,7 @@ class UsersController < ApplicationController
     end
 
     post '/signup' do
+        binding.pry
         if !User.find_by(username: params[:username]) #checks if there is already a user by this username
             user = User.new(params) #instantiates new user with params
             if user.save #this validates params input, if user can be persisted that means params includes username, password, and name
@@ -50,7 +51,7 @@ class UsersController < ApplicationController
                 erb :"/users/signup"
             end
         else
-            @errors[:signup] = "The username you selected already exists."
+            @errors = error_generator(params)
 
             erb :"/users/signup"
         end
@@ -65,6 +66,9 @@ class UsersController < ApplicationController
     helpers do
         def error_generator(params)
             errors = {}
+            if User.exists?(username: params[:username])
+                errors[:signup] = "The username you selected already exists."
+            end
             if params[:name] == ""
                 errors[:name] = "Please enter a name." 
             else

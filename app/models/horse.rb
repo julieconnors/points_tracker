@@ -1,4 +1,6 @@
 class Horse < ActiveRecord::Base
+    #extend Slug::ClassMethods
+    #include Slug::InstanceMethods
     belongs_to :user
     has_many :prizes
     has_many :horseshows, through: :prizes
