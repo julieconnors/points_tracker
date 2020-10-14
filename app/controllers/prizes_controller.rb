@@ -1,7 +1,4 @@
 class PrizesController < ApplicationController
-    
-    @errors = {}
-
     get '/prizes' do
         logged_out_redirection
         
@@ -16,7 +13,7 @@ class PrizesController < ApplicationController
 
     post '/prizes' do
         logged_out_redirection #is this necessary???
-        
+        @errors = {}
         if horse_valid?(params) && prize_valid?(params) && show_exist?(params) && !new_show_input_entered?(params)#if these conditions are met, a horse and horseshow can be found & prize can be created and there is no new horse show input
             horseshow = Horseshow.find_by(id: params[:horseshow_id]) #finds horseshow by id in params
                 
@@ -159,7 +156,7 @@ class PrizesController < ApplicationController
             if prize_valid?(params)
                 valid_input[:points] = params[:prize][:point_total]
             end
-            if params[:horseshow_id] == nil && params[:horseshow] != nil
+            if params[:horseshow_id] == nil && params[:horseshow] != nil ## double check this
                 if params[:horseshow][:name] != ""
                     valid_input[:name] = params[:horseshow][:name]
                 end

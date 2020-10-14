@@ -1,5 +1,4 @@
 class HorsesController < ApplicationController
-
     get '/horses' do
         logged_out_redirection
             
