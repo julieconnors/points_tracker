@@ -17,9 +17,9 @@ class UsersController < ApplicationController
         if User.exists?(username: params[:username]) #checks if User can be found with params
             @user = User.find_by(username: params[:username]) #finds user
             if @user.authenticate(params[:password]) #checks if user can be authenticated with password provided
-                session[:user_id] = user.id #logs user in by assigning session user_id
+                session[:user_id] = @user.id #logs user in by assigning session user_id
 
-                redirect "/users/#{user.slug}"
+                redirect "/users/#{@user.slug}"
             else
                 @errors = error_generator(params) #creates a hash of error messages to be displayed in view 
 
@@ -73,11 +73,13 @@ class UsersController < ApplicationController
             else
                 @username = params[:username]
             end
+
             if params[:name] == ""
                 errors[:name] = "Please enter a name." 
             else
                 @name = params[:name]
             end
+            
             if params[:password] != "" && !@user.authenticate(params[:password])
                 errors[:wrong_password] = "The password entered doesn't match our records."
             elsif params[:password] == ""

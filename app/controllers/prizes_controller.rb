@@ -48,14 +48,14 @@ class PrizesController < ApplicationController
         logged_out_redirection
         @prize = Prize.find_by(id: params[:id])
         
-            erb :"/prizes/show"
+        erb :"/prizes/show"
     end
 
     get '/prizes/:id/edit' do
         logged_out_redirection
         @prize = Prize.find_by(id: params[:id])
 
-            erb :"/prizes/edit"
+        erb :"/prizes/edit"
     end
 
     patch '/prizes/:id' do
