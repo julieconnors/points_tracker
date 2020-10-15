@@ -14,21 +14,20 @@ class UsersController < ApplicationController
     end
 
     post '/login' do
-        @errors = {}
         if User.exists?(username: params[:username]) #checks if User can be found with params
-            user = User.find_by(username: params[:username]) #finds user
-            if user.authenticate(params[:password]) #checks if user can be authenticated with password provided
+            @user = User.find_by(username: params[:username]) #finds user
+            if @user.authenticate(params[:password]) #checks if user can be authenticated with password provided
                 session[:user_id] = user.id #logs user in by assigning session user_id
 
                 redirect "/users/#{user.slug}"
             else
-                @errors[:wrong_password] = "The password entered doesn't match our records."
+                @errors = error_generator(params) #creates a hash of error messages to be displayed in view 
 
                 erb :"/users/login"
             end
         else
-            @errors[:login] = "We were unable to find an account with the username provided."
-            
+            @errors = error_generator(params) #creates a hash of error messages to be displayed in view 
+
             erb :"/users/login"
         end
     end
@@ -38,7 +37,6 @@ class UsersController < ApplicationController
     end
 
     post '/signup' do
-        binding.pry
         if !User.find_by(username: params[:username]) #checks if there is already a user by this username
             user = User.new(params) #instantiates new user with params
             if user.save #this validates params input, if user can be persisted that means params includes username, password, and name
@@ -68,18 +66,21 @@ class UsersController < ApplicationController
             errors = {}
             if User.exists?(username: params[:username])
                 errors[:signup] = "The username you selected already exists."
+            elsif params[:username] != "" && !User.exists?(username: params[:username])
+                errors[:login] = "We were unable to find an account with the username provided."
+            elsif params[:username] == ""
+                errors[:username] = "Please enter a username."
+            else
+                @username = params[:username]
             end
             if params[:name] == ""
                 errors[:name] = "Please enter a name." 
             else
                 @name = params[:name]
             end
-            if params[:username] == ""
-                errors[:username] = "Please enter a username."
-            else
-                @username = params[:username]
-            end
-            if params[:password] == ""
+            if params[:password] != "" && !@user.authenticate(params[:password])
+                errors[:wrong_password] = "The password entered doesn't match our records."
+            elsif params[:password] == ""
                 errors[:password] = "Please enter a password."
             else
                 @password = params[:password]

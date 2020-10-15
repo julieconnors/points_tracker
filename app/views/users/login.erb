@@ -7,6 +7,7 @@
     <label for="username">Username: </label>
         <input type="text" name="username" <% if !!@user %> value="<%= @user.username %>" <% end %>><br>
     <% if !!@errors[:wrong_password] %><p style="color: red; font-size: 12px;"><%= @errors[:wrong_password] %></p><% end %>
+    <% if !!@errors[:password] %><p style="color: red; font-size: 12px;"><%= @errors[:password] %></p><% end %>
 
     <label for="password">Password: </label>
         <input type="password" name="password"><br>
