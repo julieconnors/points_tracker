@@ -6,13 +6,14 @@
                 <th>Horse</th>
                 <th>Points</th>
                 <th>Prize Page</th>
-                    <% horseshow.prizes.each do |prize| %>
-                    <tr>
-                        <% horse = Horse.find_by(id: prize.horse_id) %>
-                        <td><a href="<%= horse.slug %>"><%= horse.name %></a></td>
-                        <td><%= prize.point_total %></td>
-                        <td><a href="/prizes/<%= prize.id %>">Edit/Remove</a></td>
-                    </tr>
+                    <% prizes = Prize.where("horseshow_id = ? AND user_id = ?", horseshow.id, current_user.id )%>
+                    <% prizes.each do |prize| %>
+                        <tr>
+                            <% horse = Horse.find_by(id: prize.horse_id) %>
+                            <td><a href="<%= horse.slug %>"><%= horse.name %></a></td>
+                            <td><%= prize.point_total %></td>
+                            <td><a href="/prizes/<%= prize.id %>">Edit/Remove</a></td>
+                        </tr>
                     <%end%>
                 </table>
         <% end %>

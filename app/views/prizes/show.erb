@@ -1,8 +1,7 @@
 <div class="display">
     <% if @prize.user_id != current_user.id %><h3>You do not have access to this listing.</h3>
     <% else %>
-    <% horse = Horse.find_by(id: @prize.horse_id) %>
-    <br>
+    <% horse = Horse.find_by(id: @prize.horse_id) %><br>
     <strong>Horse: </strong><a href="/horses/<%= horse.slug %>"><%= horse.name %></a><br><br>
     
     <% horseshow = Horseshow.find_by(id: @prize.horseshow_id) %> 
