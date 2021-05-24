@@ -1,4 +1,5 @@
 class HorsesController < ApplicationController
+    
     get '/horses' do
         logged_out_redirection
             
@@ -23,10 +24,11 @@ class HorsesController < ApplicationController
         horse = Horse.new(name: params[:name]) #instantiates new horse
         horse.user_id = current_user.id #assigns horse user_id to that of current_user
         if horse.save #saves horse with user_id set
+            flash[:message] = "Horse created"
 
             redirect "/horses/#{horse.slug}"
         else
-            @error = "Either you already have a horse by that name or input is invalid."
+            flash[:error] = "Either you already have a horse by that name or input is invalid."
             erb :"/horses/new"
         end
     end
@@ -41,11 +43,12 @@ class HorsesController < ApplicationController
     patch '/horses/:slug' do
         logged_out_redirection # is this necessary
         @horse = Horse.find_by_slug(params[:slug])
+
         if @horse.update(name: params[:name]) #update horse with params data
 
             redirect "/horses/#{@horse.slug}"
         else
-            @error = "Either you already have a horse by that name or input is invalid."
+            flash[:error] = "Either you already have a horse by that name or input is invalid."
 
             erb :"/horses/edit"
         end

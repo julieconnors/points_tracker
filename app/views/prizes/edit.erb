@@ -6,8 +6,8 @@
   <% else %>
   
   <h1>Edit Prize</h1>
-  <% if !!@errors[:duplicate_error] %>
-      <p style="color: red; font-size: 12px;"><%= @errors[:duplicate_error] %></p>
+  <% if !!@errors[:duplicate_prize] %>
+      <p style="color: red; font-size: 12px;"><%= @errors[:duplicate_prize] %></p>
   <% end %>
 
   <form action="/prizes/<%= @prize.id %>" method="post">
@@ -34,9 +34,13 @@
             <% if !@errors[:horseshow] %>
               <% if !!@valid_input[:horseshow_id] %><%='checked' if @valid_input[:horseshow_id] == show.id %>
               <% else %><%='checked' if @prize.horseshow_id == show.id %><% end %>>
-            <% end %></td>
+
+            <% end %></td> 
           </tr>
           <% end %>
+          <td></td>
+          <td></td>
+          <td><input id="no_show" type="radio" name="horseshow_id" value="-1"></td>
     </table>
     <br>
   

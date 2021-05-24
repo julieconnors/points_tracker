@@ -1,5 +1,9 @@
 <div class="display">
-
+    <div id="error">
+    <% if flash.has?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
+    </div>
 <h1><%= @horse.name %></h1>
 <% if @horse.user_id == current_user.id%>
     <button><a href="/horses/<%= @horse.slug %>/edit">Edit Horse</a></button><br><br>

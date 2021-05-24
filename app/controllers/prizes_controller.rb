@@ -13,7 +13,6 @@ class PrizesController < ApplicationController
 
     post '/prizes' do
         logged_out_redirection #is this necessary???
-        @errors = {}
         if horse_valid?(params) && prize_valid?(params) && show_exist?(params) && !new_show_input_entered?(params)#if these conditions are met, a horse and horseshow can be found & prize can be created and there is no new horse show input
             horseshow = Horseshow.find_by(id: params[:horseshow_id]) #finds horseshow by id in params
                 
@@ -23,7 +22,7 @@ class PrizesController < ApplicationController
                 
                 redirect "/prizes/#{@prize.id}"
             else
-                @errors[:duplicate_prize] = "This is a duplicate prize. You can edit an existing prize or add a new prize."
+                @errors = error_generator(params)
 
                 erb :"/prizes/new"
             end
@@ -72,7 +71,7 @@ class PrizesController < ApplicationController
         
                 redirect "/prizes/#{@prize.id}"
             else
-                @errors[:duplicate_prize] = "This is a duplicate prize. You can edit an existing prize or add a new prize."
+                @errors = error_generator(params)
 
                 erb :"/prizes/edit"
             end
@@ -111,7 +110,7 @@ class PrizesController < ApplicationController
         end
 
         def show_exist?(params)
-            !!params[:horseshow_id]
+            params[:horseshow_id].to_i >= 1
         end
 
         def new_show_input_entered?(params)
@@ -129,6 +128,9 @@ class PrizesController < ApplicationController
             end
             if !prize_valid?(params)
                 errors[:points] = "Please enter integer point value."
+            end
+            if Prize.where("horse_id = ? AND horseshow_id = ? AND point_total = ?", params[:horse_id], params[:horseshow_id], params[:prize][:point_total])
+                errors[:duplicate_prize] = "This is a duplicate prize. You can edit an existing prize or add a new prize."
             end
             if params[:horseshow_id] == nil && !new_show_input_entered?(params)
                 errors[:horseshow] = "Please select an existing show or add a new horse show."
@@ -156,7 +158,7 @@ class PrizesController < ApplicationController
             if prize_valid?(params)
                 valid_input[:points] = params[:prize][:point_total]
             end
-            if params[:horseshow_id] == nil && params[:horseshow] != nil ## double check this
+            if params[:horseshow_id] == nil && params[:horseshow] != nil
                 if params[:horseshow][:name] != ""
                     valid_input[:name] = params[:horseshow][:name]
                 end
@@ -166,7 +168,7 @@ class PrizesController < ApplicationController
                 if params[:horseshow][:date] != ""
                     valid_input[:date] = params[:horseshow][:date]
                 end
-            elsif params[:horseshow_id] != nil && !new_show_input_entered?(params)
+            elsif params[:horseshow_id] != nil && !new_show_input_entered?(params) #update to check if horseshow_id hash has more than one input
                 valid_input[:horseshow_id] = params[:horseshow_id].to_i
             end
             valid_input
