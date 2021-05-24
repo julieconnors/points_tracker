@@ -8,14 +8,18 @@ Start by creating an account, then add your horses and prizes you've been awarde
 
 Blog: https://juliana-g-connors.medium.com/points-tracker-project-1dab2d47bc81
 
-Video Demo:
+Video Demo: https://www.youtube.com/watch?v=6rEwg75JCoI&t=1s
 
 INSTALL:
  - Clone this repository 
  - Run rake db:migrate to set up the database
  - Start the app with shotgun command in terminal
 
-LICENSE: [License.txt]
+LICENSE: [a relative link](License.txt)
+
+
+
+
 
 
 
