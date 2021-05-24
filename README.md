@@ -1,4 +1,22 @@
-Welcome to Points Tracker! Keep track of your competition horses, prizes awarded, and horse shows you've competed in.
+Welcome to Points Tracker! 
 
-Install Instructions:
-Simply clone this repository, run rake db:migrate then run shotgun.
+ABOUT:
+Each show season point totals start from zero and riders compete to gain enough points to qualify for other competitions or for year-end awards. Points tracker is designed to allow riders to track their competition results all in one place.
+
+USAGE:
+Start by creating an account, then add your horses and prizes you've been awarded at competitions. Points tracker will aggregate points by horse and by horse show so you can track overall standings.
+
+Blog: https://juliana-g-connors.medium.com/points-tracker-project-1dab2d47bc81
+
+Video Demo:
+
+INSTALL:
+ - Clone this repository 
+ - Run rake db:migrate to set up the database
+ - Start the app with shotgun command in terminal
+
+LICENSE: [License.txt]
+
+
+
+
