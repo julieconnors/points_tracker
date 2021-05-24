@@ -15,7 +15,7 @@ INSTALL:
  - Run rake db:migrate to set up the database
  - Start the app with shotgun command in terminal
 
-LICENSE: [a relative link](License.txt)
+[LICENSE](License.txt)
 
 
 
